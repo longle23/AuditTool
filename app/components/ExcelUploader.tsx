@@ -473,31 +473,19 @@ export default function ExcelUploader() {
         {/* Button 2: Gộp thành 1 sheet Combined */}
         <button
           onClick={() => handleProcess(true)}
-          disabled={files.length === 0 || isProcessing || !searchPattern.trim()}
-          className="w-full bg-gradient-to-r from-[#FFB81C] to-[#E5A419] text-[#00205B] py-4 rounded-xl font-bold text-lg
-            hover:from-[#E5A419] hover:to-[#CC9116] disabled:from-gray-300 disabled:to-gray-300 
-            disabled:cursor-not-allowed transition-all duration-200 shadow-xl hover:shadow-2xl
-            disabled:shadow-none transform hover:scale-[1.02] active:scale-[0.98] border-2 border-[#00205B]"
+          disabled={true}
+          className="w-full bg-gradient-to-r from-gray-300 to-gray-300 text-gray-500 py-4 rounded-xl font-bold text-lg
+            cursor-not-allowed transition-all duration-200 shadow-none border-2 border-gray-400 opacity-60"
         >
-          {isProcessing ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              Đang xử lý...
-            </span>
-          ) : (
-            <span className="flex items-center justify-center gap-2">
-              ✨ Bước 2: Gộp thành 1 sheet &quot;Combined&quot;
-            </span>
-          )}
+          <span className="flex items-center justify-center gap-2">
+            🔒 Bước 2: Đã tạm khóa (Liên hệ admin để mở)
+          </span>
         </button>
 
         {/* Explanation */}
         <div className="text-xs text-[#00205B] text-center space-y-1 mt-2 font-medium">
           <p>💡 <span className="font-bold">Bước 1:</span> Mỗi file = 1 sheet riêng biệt (Nhanh: 3-5 phút)</p>
-          <p>✨ <span className="font-bold">Bước 2:</span> Tất cả data gộp vào 1 sheet (Chậm: 20-30 phút với file lớn)</p>
+          <p className="text-gray-500">🔒 <span className="font-bold">Bước 2:</span> Đã tạm khóa</p>
         </div>
 
         {/* Warning for large files in Step 2 */}
@@ -556,17 +544,18 @@ export default function ExcelUploader() {
           </div>
 
           {/* Bước 2 */}
-          <div className="p-4 bg-[#FFB81C] border-2 border-[#00205B] rounded-lg shadow-lg">
-            <h5 className="font-bold text-[#00205B] mb-2 flex items-center gap-2">
-              ✨ Bước 2: 1 sheet Combined
+          <div className="p-4 bg-gray-100 border-2 border-gray-400 rounded-lg shadow-lg opacity-60">
+            <h5 className="font-bold text-gray-600 mb-2 flex items-center gap-2">
+              🔒 Bước 2: 1 sheet Combined (Đã khóa)
             </h5>
-            <p className="text-sm text-[#00205B] mb-2 font-medium">
+            <p className="text-sm text-gray-600 mb-2 font-medium">
               Kết quả: 1 file với 1 sheet &quot;Combined&quot;
             </p>
-            <p className="text-xs text-[#00205B]">
+            <p className="text-xs text-gray-600">
               Tất cả data từ các sheet được gộp thành 1:<br/>
               • Header từ sheet đầu tiên<br/>
-              • Data từ tất cả sheet (không duplicate header)
+              • Data từ tất cả sheet (không duplicate header)<br/>
+              <span className="font-bold text-red-600">⚠️ Chức năng tạm khóa</span>
             </p>
           </div>
         </div>
