@@ -197,17 +197,17 @@ export default function ExcelUploader() {
     <div className="max-w-3xl mx-auto p-6">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-[#00205B] to-[#FFB81C] bg-clip-text text-transparent">
           Công cụ Gộp Sheet Excel
         </h1>
-        <p className="text-gray-600">
+        <p className="text-[#00205B] font-medium">
           Dành cho team Kiểm toán - Tự động gộp các sheet theo pattern tùy chỉnh
         </p>
       </div>
 
       {/* Search Pattern Input */}
-      <div className="mb-6 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-        <label htmlFor="searchPattern" className="block text-sm font-semibold text-gray-700 mb-2">
+      <div className="mb-6 bg-white rounded-xl border-2 border-[#00205B] p-4 shadow-lg">
+        <label htmlFor="searchPattern" className="block text-sm font-semibold text-[#00205B] mb-2">
           🔍 Pattern tìm kiếm sheet:
         </label>
         <input
@@ -216,9 +216,9 @@ export default function ExcelUploader() {
           value={searchPattern}
           onChange={(e) => setSearchPattern(e.target.value)}
           placeholder="Ví dụ: month, quarter, weekly..."
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+          className="w-full px-4 py-3 border-2 border-[#FFB81C] rounded-lg focus:ring-2 focus:ring-[#00205B] focus:border-[#00205B] outline-none transition-all"
         />
-        <p className="text-xs text-gray-500 mt-2">
+        <p className="text-xs text-gray-600 mt-2">
           💡 Nhập từ khóa để tìm sheet (không phân biệt hoa thường). Ví dụ: &quot;month&quot; sẽ tìm &quot;Month 01&quot;, &quot;Monthly Report&quot;...
         </p>
       </div>
@@ -226,16 +226,16 @@ export default function ExcelUploader() {
       {/* Drop Zone */}
       <div
         {...getRootProps()}
-        className={`border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all duration-200
+        className={`border-3 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all duration-200 shadow-lg
           ${isDragActive 
-            ? 'border-blue-500 bg-blue-50 scale-[1.02]' 
-            : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
+            ? 'border-[#FFB81C] bg-[#FFF8E7] scale-[1.02] shadow-xl' 
+            : 'border-[#00205B] hover:border-[#FFB81C] hover:bg-[#F8F9FA] bg-white'
           }`}
       >
         <input {...getInputProps()} />
-        <div className="text-gray-600">
+        <div className="text-[#00205B]">
           <svg 
-            className="mx-auto h-16 w-16 mb-4 text-gray-400"
+            className="mx-auto h-16 w-16 mb-4 text-[#FFB81C]"
             fill="none" 
             viewBox="0 0 24 24" 
             stroke="currentColor"
@@ -249,18 +249,18 @@ export default function ExcelUploader() {
           </svg>
           
           {isDragActive ? (
-            <p className="text-xl font-semibold text-blue-600">
+            <p className="text-xl font-semibold text-[#FFB81C]">
               Thả file vào đây...
             </p>
           ) : (
             <>
-              <p className="text-lg mb-2 font-medium">
+              <p className="text-lg mb-2 font-bold text-[#00205B]">
                 Kéo thả file Excel vào đây
               </p>
-              <p className="text-sm text-gray-500 mb-3">
+              <p className="text-sm text-[#00205B] mb-3 font-medium">
                 hoặc click để chọn file
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-gray-600">
                 Hỗ trợ: .xlsx, .xls, .xlsb (nhiều file)
               </p>
             </>
@@ -270,15 +270,15 @@ export default function ExcelUploader() {
 
       {/* Processing Message */}
       {processingMessage && (
-        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <div className="mt-4 p-4 bg-[#FFF8E7] border-2 border-[#FFB81C] rounded-lg shadow-lg">
           <div className="flex items-center gap-3">
-            <svg className="animate-spin h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin h-5 w-5 text-[#FFB81C]" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
             </svg>
             <div className="flex-1">
-              <p className="text-sm font-medium text-blue-900">{processingMessage}</p>
-              <p className="text-xs text-blue-700 mt-1">
+              <p className="text-sm font-medium text-[#00205B]">{processingMessage}</p>
+              <p className="text-xs text-[#00205B] mt-1 opacity-80">
                 File lớn (300k+ dòng) có thể mất 2-5 phút. Vui lòng đợi...
               </p>
             </div>
@@ -288,14 +288,14 @@ export default function ExcelUploader() {
 
       {/* File List */}
       {files.length > 0 && (
-        <div className="mt-6 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+        <div className="mt-6 bg-white rounded-xl border-2 border-[#00205B] p-4 shadow-lg">
           <div className="flex justify-between items-center mb-3">
-            <h3 className="font-semibold text-gray-800">
+            <h3 className="font-semibold text-[#00205B]">
               Đã chọn {files.length} file:
             </h3>
             <button
               onClick={clearAll}
-              className="text-sm text-red-600 hover:text-red-700 font-medium"
+              className="text-sm text-red-600 hover:text-red-700 font-medium px-3 py-1 rounded-lg hover:bg-red-50 transition-colors"
             >
               Xóa tất cả
             </button>
@@ -305,11 +305,11 @@ export default function ExcelUploader() {
             {files.map((fileInfo, index) => (
               <li 
                 key={index} 
-                className="flex items-center justify-between bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors"
+                className="flex items-center justify-between bg-[#FFF8E7] p-3 rounded-lg hover:bg-[#FFE9B3] transition-colors border border-[#FFB81C]"
               >
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <svg 
-                    className="h-8 w-8 text-green-600 flex-shrink-0" 
+                    className="h-8 w-8 text-[#FFB81C] flex-shrink-0" 
                     fill="currentColor" 
                     viewBox="0 0 20 20"
                   >
@@ -319,10 +319,10 @@ export default function ExcelUploader() {
                     />
                   </svg>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-gray-800 truncate">
+                    <p className="text-sm font-medium text-[#00205B] truncate">
                       {fileInfo.name}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-600">
                       {fileInfo.size} KB
                     </p>
                   </div>
@@ -344,9 +344,9 @@ export default function ExcelUploader() {
 
       {/* Process Report */}
       {processReport && processReport.length > 0 && (
-        <div className="mt-6 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-          <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-            <svg className="h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+        <div className="mt-6 bg-white rounded-xl border-2 border-[#00205B] p-4 shadow-lg">
+          <h3 className="font-semibold text-[#00205B] mb-3 flex items-center gap-2">
+            <svg className="h-5 w-5 text-[#FFB81C]" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" />
             </svg>
             Báo cáo xử lý chi tiết:
@@ -450,10 +450,10 @@ export default function ExcelUploader() {
         <button
           onClick={() => handleProcess(false)}
           disabled={files.length === 0 || isProcessing || !searchPattern.trim()}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-semibold text-lg
-            hover:from-blue-700 hover:to-purple-700 disabled:from-gray-300 disabled:to-gray-300 
-            disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl
-            disabled:shadow-none transform hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full bg-gradient-to-r from-[#00205B] to-[#003d82] text-white py-4 rounded-xl font-bold text-lg
+            hover:from-[#001a4d] hover:to-[#00205B] disabled:from-gray-300 disabled:to-gray-300 
+            disabled:cursor-not-allowed transition-all duration-200 shadow-xl hover:shadow-2xl
+            disabled:shadow-none transform hover:scale-[1.02] active:scale-[0.98] border-2 border-[#FFB81C]"
         >
           {isProcessing ? (
             <span className="flex items-center justify-center gap-2">
@@ -474,10 +474,10 @@ export default function ExcelUploader() {
         <button
           onClick={() => handleProcess(true)}
           disabled={files.length === 0 || isProcessing || !searchPattern.trim()}
-          className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 rounded-xl font-semibold text-lg
-            hover:from-green-700 hover:to-emerald-700 disabled:from-gray-300 disabled:to-gray-300 
-            disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl
-            disabled:shadow-none transform hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full bg-gradient-to-r from-[#FFB81C] to-[#E5A419] text-[#00205B] py-4 rounded-xl font-bold text-lg
+            hover:from-[#E5A419] hover:to-[#CC9116] disabled:from-gray-300 disabled:to-gray-300 
+            disabled:cursor-not-allowed transition-all duration-200 shadow-xl hover:shadow-2xl
+            disabled:shadow-none transform hover:scale-[1.02] active:scale-[0.98] border-2 border-[#00205B]"
         >
           {isProcessing ? (
             <span className="flex items-center justify-center gap-2">
@@ -495,9 +495,9 @@ export default function ExcelUploader() {
         </button>
 
         {/* Explanation */}
-        <div className="text-xs text-gray-500 text-center space-y-1 mt-2">
-          <p>💡 <span className="font-semibold">Bước 1:</span> Mỗi file = 1 sheet riêng biệt (Nhanh: 3-5 phút)</p>
-          <p>✨ <span className="font-semibold">Bước 2:</span> Tất cả data gộp vào 1 sheet (Chậm: 20-30 phút với file lớn)</p>
+        <div className="text-xs text-[#00205B] text-center space-y-1 mt-2 font-medium">
+          <p>💡 <span className="font-bold">Bước 1:</span> Mỗi file = 1 sheet riêng biệt (Nhanh: 3-5 phút)</p>
+          <p>✨ <span className="font-bold">Bước 2:</span> Tất cả data gộp vào 1 sheet (Chậm: 20-30 phút với file lớn)</p>
         </div>
 
         {/* Warning for large files in Step 2 */}
@@ -521,19 +521,19 @@ export default function ExcelUploader() {
       {/* Info Box */}
       <div className="mt-8 space-y-4">
         {/* Hướng dẫn chung */}
-        <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <h4 className="font-semibold text-blue-900 mb-2 flex items-center gap-2">
-            <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+        <div className="p-4 bg-[#FFF8E7] border-2 border-[#FFB81C] rounded-lg shadow-lg">
+          <h4 className="font-bold text-[#00205B] mb-2 flex items-center gap-2">
+            <svg className="h-5 w-5 text-[#FFB81C]" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" />
             </svg>
             Cách sử dụng:
           </h4>
-          <ul className="text-sm text-blue-800 space-y-1">
+          <ul className="text-sm text-[#00205B] space-y-1 font-medium">
             <li>1. Nhập pattern tìm kiếm (ví dụ: &quot;month&quot;, &quot;quarter&quot;, &quot;weekly&quot;)</li>
             <li>2. Chọn nhiều file Excel (.xlsx, .xls, .xlsb)</li>
             <li>3. Chọn một trong hai nút xử lý:</li>
-            <li className="ml-6">• <span className="font-semibold">Bước 1:</span> Mỗi file giữ 1 sheet riêng</li>
-            <li className="ml-6">• <span className="font-semibold">Bước 2:</span> Gộp tất cả vào 1 sheet &quot;Combined&quot;</li>
+            <li className="ml-6">• <span className="font-bold">Bước 1:</span> Mỗi file giữ 1 sheet riêng</li>
+            <li className="ml-6">• <span className="font-bold">Bước 2:</span> Gộp tất cả vào 1 sheet &quot;Combined&quot;</li>
             <li>4. Xem báo cáo chi tiết và tải file về</li>
           </ul>
         </div>
@@ -541,14 +541,14 @@ export default function ExcelUploader() {
         {/* Giải thích 2 bước */}
         <div className="grid md:grid-cols-2 gap-4">
           {/* Bước 1 */}
-          <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
-            <h5 className="font-semibold text-purple-900 mb-2 flex items-center gap-2">
+          <div className="p-4 bg-white border-2 border-[#00205B] rounded-lg shadow-lg">
+            <h5 className="font-bold text-[#00205B] mb-2 flex items-center gap-2">
               📊 Bước 1: Nhiều sheet
             </h5>
-            <p className="text-sm text-purple-800 mb-2">
+            <p className="text-sm text-[#00205B] mb-2 font-medium">
               Kết quả: 1 file với nhiều sheet
             </p>
-            <p className="text-xs text-purple-700">
+            <p className="text-xs text-gray-700">
               Ví dụ: File1.xlsx → Sheet &quot;Month 01&quot;<br/>
               File2.xlsx → Sheet &quot;Month 02&quot;<br/>
               File3.xlsx → Sheet &quot;Month 03&quot;
@@ -556,14 +556,14 @@ export default function ExcelUploader() {
           </div>
 
           {/* Bước 2 */}
-          <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-            <h5 className="font-semibold text-green-900 mb-2 flex items-center gap-2">
+          <div className="p-4 bg-[#FFB81C] border-2 border-[#00205B] rounded-lg shadow-lg">
+            <h5 className="font-bold text-[#00205B] mb-2 flex items-center gap-2">
               ✨ Bước 2: 1 sheet Combined
             </h5>
-            <p className="text-sm text-green-800 mb-2">
+            <p className="text-sm text-[#00205B] mb-2 font-medium">
               Kết quả: 1 file với 1 sheet &quot;Combined&quot;
             </p>
-            <p className="text-xs text-green-700">
+            <p className="text-xs text-[#00205B]">
               Tất cả data từ các sheet được gộp thành 1:<br/>
               • Header từ sheet đầu tiên<br/>
               • Data từ tất cả sheet (không duplicate header)
@@ -573,9 +573,9 @@ export default function ExcelUploader() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-12 pt-6 border-t border-gray-200 text-center">
-        <p className="text-sm text-gray-500">
-          Designed by <span className="font-semibold text-gray-700">Henry</span> for <span className="font-semibold text-gray-700">Audit</span>
+      <footer className="mt-12 pt-6 border-t-4 border-[#FFB81C] text-center bg-white rounded-xl p-4 shadow-lg">
+        <p className="text-sm font-bold text-[#00205B]">
+          Designed by <span className="font-bold text-[#FFB81C]">Henry</span> for <span className="font-bold text-[#00205B]">Audit Team</span>
         </p>
       </footer>
     </div>
