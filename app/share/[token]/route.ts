@@ -1,7 +1,10 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { readSession, SESSION_COOKIE } from '@/lib/auth';
+import { isExpired, readSession, SESSION_COOKIE } from '@/lib/auth';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ token: string }> }) {
+  const current = await readSession(request.cookies.get(SESSION_COOKIE)?.value);
+  if (current?.role === 'admin' && !isExpired(current)) return NextResponse.redirect(new URL('/', request.url));
+
   const { token } = await params;
   const session = await readSession(token);
   if (!session || session.role !== 'guest') return NextResponse.redirect(new URL('/login', request.url));

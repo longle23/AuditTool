@@ -16,10 +16,10 @@ export function AppShell({ session, children }: { session: Session; children: Re
     setCollapsed(localStorage.getItem(COLLAPSED_KEY) === '1');
   }, []);
 
-  // Tools run in the browser without server round-trips, so the guest deadline must be enforced here too.
+  // Tools run in the browser without server round-trips, so session deadlines must be enforced here too.
   useEffect(() => {
-    if (session.role !== 'guest') return;
-    const timer = setTimeout(() => setExpired(true), session.exp - Date.now());
+    const onExpire = () => (session.role === 'guest' ? setExpired(true) : window.location.assign('/login'));
+    const timer = setTimeout(onExpire, session.exp - Date.now());
     return () => clearTimeout(timer);
   }, [session]);
 

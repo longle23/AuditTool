@@ -1,7 +1,7 @@
 export const SESSION_COOKIE = 'jennie-work-session';
 export const ADMIN_USERNAME = 'admin';
 export const ADMIN_PASSWORD = 'conbotdien';
-export const ADMIN_SESSION_MINUTES = 30 * 24 * 60;
+export const ADMIN_SESSION_MINUTES = 4 * 60;
 // Must stay under setTimeout's ~24.8-day limit, used for the client-side guest deadline.
 export const MAX_SHARE_MINUTES = 7 * 24 * 60;
 
