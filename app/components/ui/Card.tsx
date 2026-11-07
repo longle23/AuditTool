@@ -9,7 +9,7 @@ interface CardProps {
 
 export function Card({ title, description, actions, children, className = '', bodyClassName = 'p-5' }: CardProps) {
   return (
-    <section className={`rounded-lg border border-slate-200 bg-white shadow-xs ${className}`}>
+    <section className={`rounded-xl border border-slate-200/80 bg-white shadow-sm shadow-brand-900/[0.03] ${className}`}>
       {(title || actions) && (
         <header className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-3.5">
           <div className="min-w-0">

@@ -1,4 +1,4 @@
-# Audit Tool
+# Jennie Work
 
 Bộ công cụ web hỗ trợ kiểm toán, xây bằng Next.js. Mỗi chức năng là một mục trong menu bên trái.
 
@@ -12,6 +12,10 @@ Gộp các file giao dịch của một tháng thành **một file Excel, một 
 - Kiểm tra trước khi gộp: cấu trúc cột phải giống nhau giữa các file, ngày còn thiếu / trùng trong tháng, ngày dữ liệu bên trong có khớp tên file không, giới hạn 1.048.576 dòng của Excel.
 - Khi gộp: giữ header của file đầu tiên, bỏ header các file sau; file xuất theo thứ tự mới → cũ sẽ được đảo lại để tăng dần theo cột thời gian (ưu tiên “TG hoàn thành”); cột `STT` được đánh số lại liên tục.
 - File kết quả có dòng tiêu đề cố định, bộ lọc (AutoFilter) và độ rộng cột hợp lý.
+- Kiểm tra sau khi gộp:
+  - **Tổng kiểm soát**: tổng các cột số tiền (Giá trị GD, Phí, Lãi gộp, Giá vốn, Thực nhận…) theo từng file và cả tháng; đối chiếu tổng lúc đọc nguồn với lúc ghi file gộp.
+  - **Trùng mã giao dịch**: trùng Mã đơn hàng / Mã thanh toán trong cùng file hoặc giữa các file, kèm số dòng trong file gộp; xuất danh sách ra CSV.
+- Tự bỏ qua file tạm `~$...xlsx` của Excel khi file gốc đang mở.
 - Toàn bộ xử lý chạy trong trình duyệt (Web Worker, đọc/ghi .xlsx dạng streaming) — dữ liệu không tải lên máy chủ. Khoảng 450 nghìn dòng (~180 MB file nguồn) mất khoảng 1 phút.
 
 Chỉ hỗ trợ định dạng `.xlsx`.

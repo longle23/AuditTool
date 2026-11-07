@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 
-const COLLAPSED_KEY = 'audit-tool:sidebar-collapsed';
+const COLLAPSED_KEY = 'jennie-work:sidebar-collapsed';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -21,7 +21,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar collapsed={collapsed} onToggle={toggle} />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar />

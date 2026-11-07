@@ -58,6 +58,7 @@ export class SingleSheetXlsxWriter {
   private columnCount = 0;
   private letters: string[] = [];
   private rowNumber = 0;
+  private headerRow = 1;
   private finished: Promise<void>;
   private resolveFinished!: () => void;
   private rejectFinished!: (error: Error) => void;
@@ -80,14 +81,24 @@ export class SingleSheetXlsxWriter {
     this.zip.add(this.sheet);
   }
 
+  /** Excel row number of the last row written. */
   get rowsWritten(): number {
     return this.rowNumber;
   }
 
-  /** Writes the sheet preamble and the header row. `headerSst` are shared string ids. */
-  begin(headerSst: number[], columnWidths: number[]): void {
+  get dataRows(): number {
+    return Math.max(0, this.rowNumber - this.headerRow);
+  }
+
+  /**
+   * Writes the sheet preamble and the header row. `headerSst` are shared string ids.
+   * With `subtotalColumns`, row 1 holds SUBTOTAL(9, …) formulas for those column indexes and the header moves to row 2.
+   */
+  begin(headerSst: number[], columnWidths: number[], subtotalColumns: number[] = []): void {
     this.columnCount = headerSst.length;
     this.letters = headerSst.map((_, i) => columnLetters(i));
+    const totals = subtotalColumns.filter((i) => i < this.columnCount);
+    const h = (this.headerRow = totals.length ? 2 : 1);
 
     const cols = columnWidths
       .map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w.toFixed(2)}" customWidth="1"/>`)
@@ -96,18 +107,28 @@ export class SingleSheetXlsxWriter {
     this.write(
       `${XML_HEAD}<worksheet xmlns="${MAIN_NS}" xmlns:r="${REL_NS}">` +
         '<sheetViews><sheetView tabSelected="1" workbookViewId="0">' +
-        '<pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/>' +
-        '<selection pane="bottomLeft" activeCell="A2" sqref="A2"/>' +
+        `<pane ySplit="${h}" topLeftCell="A${h + 1}" activePane="bottomLeft" state="frozen"/>` +
+        `<selection pane="bottomLeft" activeCell="A${h + 1}" sqref="A${h + 1}"/>` +
         '</sheetView></sheetViews>' +
         '<sheetFormatPr defaultRowHeight="15"/>' +
         (cols ? `<cols>${cols}</cols>` : '') +
         '<sheetData>',
     );
 
-    this.rowNumber = 1;
-    let row = '<row r="1" ht="20" customHeight="1">';
+    if (totals.length) {
+      // shortcut: rows are streamed so the last row is unknown here; the range runs to the sheet end, which SUBTOTAL treats the same.
+      let row = '<row r="1">';
+      for (const i of totals) {
+        const c = this.letters[i];
+        row += `<c r="${c}1" s="2"><f>SUBTOTAL(9,${c}${h + 1}:${c}${EXCEL_MAX_ROWS})</f></c>`;
+      }
+      this.write(row + '</row>');
+    }
+
+    this.rowNumber = h;
+    let row = `<row r="${h}" ht="20" customHeight="1">`;
     for (let i = 0; i < headerSst.length; i++) {
-      row += `<c r="${this.letters[i]}1" s="1" t="s"><v>${headerSst[i]}</v></c>`;
+      row += `<c r="${this.letters[i]}${h}" s="1" t="s"><v>${headerSst[i]}</v></c>`;
     }
     this.write(row + '</row>');
   }
@@ -134,7 +155,7 @@ export class SingleSheetXlsxWriter {
 
   async finish(): Promise<void> {
     const lastColumn = columnLetters(Math.max(this.columnCount, 1) - 1);
-    const range = `A1:${lastColumn}${Math.max(this.rowNumber, 1)}`;
+    const range = `A${this.headerRow}:${lastColumn}${Math.max(this.rowNumber, this.headerRow)}`;
     this.write(
       '</sheetData>' +
         (this.columnCount > 0 ? `<autoFilter ref="${range}"/>` : '') +
@@ -205,6 +226,7 @@ export class SingleSheetXlsxWriter {
       '<bookViews><workbookView/></bookViews>' +
       `<sheets><sheet name="${name}" sheetId="1" r:id="rId1"/></sheets>` +
       filter +
+      '<calcPr calcId="191029" fullCalcOnLoad="1"/>' +
       '</workbook>'
     );
   }
@@ -212,9 +234,10 @@ export class SingleSheetXlsxWriter {
 
 const STYLES_XML =
   `${XML_HEAD}<styleSheet xmlns="${MAIN_NS}">` +
-  '<fonts count="2">' +
+  '<fonts count="3">' +
   '<font><sz val="11"/><name val="Calibri"/><family val="2"/></font>' +
   '<font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/><family val="2"/></font>' +
+  '<font><b/><sz val="11"/><name val="Calibri"/><family val="2"/></font>' +
   '</fonts>' +
   '<fills count="3">' +
   '<fill><patternFill patternType="none"/></fill>' +
@@ -223,9 +246,10 @@ const STYLES_XML =
   '</fills>' +
   '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>' +
   '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>' +
-  '<cellXfs count="2">' +
+  '<cellXfs count="3">' +
   '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>' +
   '<xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment vertical="center"/></xf>' +
+  '<xf numFmtId="3" fontId="2" fillId="0" borderId="0" xfId="0" applyNumberFormat="1" applyFont="1"/>' +
   '</cellXfs>' +
   '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>' +
   '</styleSheet>';

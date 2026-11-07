@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ChevronsLeft, ChevronsRight, ShieldCheck } from 'lucide-react';
+import { ChevronsLeft, ChevronsRight, Sparkles } from 'lucide-react';
 import { NAV_GROUPS } from '@/app/config/navigation';
 
 interface SidebarProps {
@@ -15,23 +15,29 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
   return (
     <aside
-      className={`flex shrink-0 flex-col bg-navy-900 text-slate-300 transition-[width] duration-200 ${
+      className={`relative flex shrink-0 flex-col overflow-hidden bg-linear-to-b from-brand-900 via-[#2e1238] to-[#44153e] text-slate-300 transition-[width] duration-200 ${
         collapsed ? 'w-[68px]' : 'w-64'
       }`}
     >
-      <div className="flex h-14 items-center gap-3 border-b border-white/10 px-4">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-gold-500 text-navy-900">
-          <ShieldCheck className="h-[18px] w-[18px]" strokeWidth={2.25} />
+      <div className="pointer-events-none absolute -top-24 -left-16 h-56 w-56 rounded-full bg-brand-600/25 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-accent-500/30 blur-3xl" />
+
+      <div className="relative flex h-16 items-center gap-3 border-b border-white/10 px-4">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-brand-500 to-accent-500 text-white shadow-lg shadow-accent-500/30">
+          <Sparkles className="h-[18px] w-[18px]" strokeWidth={2.25} aria-hidden="true" />
         </div>
         {!collapsed && (
           <div className="min-w-0 leading-tight">
-            <p className="truncate text-sm font-semibold text-white">Audit Tool</p>
+            <p className="truncate text-[15px] font-bold tracking-tight text-white">
+              Jennie{' '}
+              <span className="bg-linear-to-r from-brand-100 to-accent-400 bg-clip-text text-transparent">Work</span>
+            </p>
             <p className="truncate text-[11px] text-slate-400">Công cụ hỗ trợ kiểm toán</p>
           </div>
         )}
       </div>
 
-      <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
+      <nav className="relative flex-1 space-y-6 overflow-y-auto px-3 py-5">
         {NAV_GROUPS.map((group) => (
           <div key={group.label}>
             {collapsed ? (
@@ -50,12 +56,16 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
                     <Link
                       href={item.href}
                       title={collapsed ? item.label : undefined}
-                      className={`group relative flex h-9 items-center gap-3 rounded-md px-2.5 text-sm transition-colors ${
-                        active ? 'bg-white/10 font-medium text-white' : 'hover:bg-white/5 hover:text-white'
+                      className={`group relative flex h-10 items-center gap-3 rounded-lg px-2.5 text-sm transition-colors ${
+                        active
+                          ? 'bg-accent-500/15 font-medium text-white ring-1 ring-accent-400/20'
+                          : 'hover:bg-white/5 hover:text-white'
                       } ${collapsed ? 'justify-center' : ''}`}
                     >
-                      {active && <span className="absolute inset-y-1.5 left-0 w-[3px] rounded-r bg-gold-500" />}
-                      <Icon className={`h-[18px] w-[18px] shrink-0 ${active ? 'text-gold-500' : ''}`} />
+                      {active && (
+                        <span className="absolute inset-y-2 left-0 w-[3px] rounded-r bg-linear-to-b from-brand-500 to-accent-400" />
+                      )}
+                      <Icon className={`h-[18px] w-[18px] shrink-0 ${active ? 'text-accent-400' : ''}`} aria-hidden="true" />
                       {!collapsed && <span className="truncate">{item.label}</span>}
                     </Link>
                   </li>
@@ -66,11 +76,11 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         ))}
       </nav>
 
-      <div className="border-t border-white/10 p-3">
+      <div className="relative border-t border-white/10 p-3">
         <button
           type="button"
           onClick={onToggle}
-          className={`flex h-9 w-full items-center gap-3 rounded-md px-2.5 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white ${
+          className={`flex h-9 w-full cursor-pointer items-center gap-3 rounded-lg px-2.5 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white ${
             collapsed ? 'justify-center' : ''
           }`}
           title={collapsed ? 'Mở rộng menu' : 'Thu gọn menu'}

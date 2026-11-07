@@ -24,7 +24,7 @@ export function CoverageBar({ coverage, month }: CoverageBarProps) {
               key={i}
               title={`${day}/${mm}: ${state}`}
               className={`h-5 flex-1 rounded-[2px] ${
-                count === 0 ? 'bg-slate-200' : count > 1 ? 'bg-amber-400' : 'bg-navy-800'
+                count === 0 ? 'bg-slate-200' : count > 1 ? 'bg-amber-400' : 'bg-brand-600'
               }`}
             />
           );

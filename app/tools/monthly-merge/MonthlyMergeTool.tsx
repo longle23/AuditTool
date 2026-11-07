@@ -20,6 +20,7 @@ import { buildPlan, formatDate, type SourceFile } from '@/lib/monthly-merge/anal
 import type { MergeProgress, MergeResult } from '@/lib/monthly-merge/merge';
 import { parsePeriod } from '@/lib/monthly-merge/period';
 import type { WorkerResponse } from '@/lib/monthly-merge/worker-protocol';
+import { AuditChecks } from './AuditChecks';
 import { CoverageBar } from './CoverageBar';
 import { FileTable, formatBytes } from './FileTable';
 import { useMergeWorker } from './useMergeWorker';
@@ -112,7 +113,9 @@ export function MonthlyMergeTool() {
   }, [running]);
 
   const onDrop = useCallback(
-    (accepted: File[]) => {
+    (dropped: File[]) => {
+      // Excel's "~$name.xlsx" owner files appear next to any workbook that is open.
+      const accepted = dropped.filter((f) => !f.name.startsWith('~$'));
       if (accepted.length === 0) return;
       clearResult();
       const added: SourceFile[] = accepted.map((file) => ({
@@ -194,13 +197,13 @@ export function MonthlyMergeTool() {
                 files.length ? 'py-5' : 'py-12'
               } ${
                 isDragActive
-                  ? 'border-navy-600 bg-navy-50'
+                  ? 'border-brand-500 bg-brand-50'
                   : 'border-slate-300 bg-slate-50/50 hover:border-slate-400 hover:bg-slate-50'
               } ${running ? 'pointer-events-none opacity-50' : ''}`}
             >
               <input {...getInputProps()} />
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-xs ring-1 ring-slate-200">
-                <UploadCloud className="h-5 w-5 text-navy-700" />
+                <UploadCloud className="h-5 w-5 text-brand-600" />
               </div>
               <div className="text-left">
                 <p className="text-sm font-medium text-slate-900">
@@ -319,6 +322,8 @@ export function MonthlyMergeTool() {
           )}
         </div>
       </div>
+
+      {job.status === 'done' && <AuditChecks result={job.result} outputName={job.fileName} />}
     </>
   );
 }
@@ -343,13 +348,13 @@ function RunningPanel({ job, now, onCancel }: { job: Job; now: number; onCancel:
     <div>
       <div className="mb-2 flex items-center justify-between gap-3 text-xs">
         <span className="flex min-w-0 items-center gap-1.5 text-slate-700">
-          <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin text-navy-700" />
+          <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin text-brand-600" />
           <span className="truncate">{label}</span>
         </span>
         <span className="font-medium tabular-nums text-slate-900">{percent}%</span>
       </div>
       <div className="h-2 overflow-hidden rounded-full bg-slate-100">
-        <div className="h-full rounded-full bg-navy-800 transition-[width] duration-300" style={{ width: `${percent}%` }} />
+        <div className="h-full rounded-full bg-linear-to-r from-brand-600 to-accent-500 transition-[width] duration-300" style={{ width: `${percent}%` }} />
       </div>
       <div className="mt-2 flex justify-between text-xs tabular-nums text-slate-500">
         <span>{(p?.rows ?? 0).toLocaleString('vi-VN')} dòng</span>
@@ -374,6 +379,7 @@ function ResultPanel({
   const { result } = job;
   const reversed = result.files.some((f) => f.reversed);
   const reordered = result.files.filter((f) => f.columnsReordered);
+  const duplicateCount = result.duplicates.reduce((s, d) => s + d.duplicateValues, 0);
 
   return (
     <Card>
@@ -413,6 +419,21 @@ function ResultPanel({
           </li>
         ))}
       </ul>
+
+      <div className="mt-3 space-y-1.5 text-xs">
+        {result.controlTotals && (
+          <p className={`flex items-center gap-1.5 ${result.controlTotals.reconciled ? 'text-emerald-700' : 'text-red-700'}`}>
+            {result.controlTotals.reconciled ? <CheckCircle2 className="h-3.5 w-3.5" /> : <AlertCircle className="h-3.5 w-3.5" />}
+            Tổng kiểm soát {result.controlTotals.reconciled ? 'khớp với file nguồn' : 'lệch so với file nguồn'}
+          </p>
+        )}
+        {result.duplicates.length > 0 && (
+          <p className={`flex items-center gap-1.5 ${duplicateCount ? 'text-amber-700' : 'text-emerald-700'}`}>
+            {duplicateCount ? <AlertTriangle className="h-3.5 w-3.5" /> : <CheckCircle2 className="h-3.5 w-3.5" />}
+            {duplicateCount ? `${duplicateCount.toLocaleString('vi-VN')} mã giao dịch bị trùng` : 'Không có mã giao dịch trùng'}
+          </p>
+        )}
+      </div>
 
       <ul className="mt-3 space-y-1 text-xs text-slate-500">
         {reversed && result.timeColumn && <li>• Sắp xếp tăng dần theo cột “{result.timeColumn}”.</li>}

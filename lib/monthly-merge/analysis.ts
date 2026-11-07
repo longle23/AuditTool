@@ -117,7 +117,7 @@ export function buildPlan(input: SourceFile[]): MergePlan {
     if (missing.length) issues.push({ level: 'warning', message: `Chưa có dữ liệu ngày ${formatDayRanges(missing)}.` });
     if (overlap.length) issues.push({ level: 'warning', message: `Ngày ${formatDayRanges(overlap)} xuất hiện ở nhiều file.` });
   }
-  if (totalRows !== null && totalRows + 1 > EXCEL_MAX_ROWS) {
+  if (totalRows !== null && totalRows + 2 > EXCEL_MAX_ROWS) {
     issues.push({
       level: 'error',
       message: `Tổng ${totalRows.toLocaleString('vi-VN')} dòng vượt giới hạn ${EXCEL_MAX_ROWS.toLocaleString('vi-VN')} dòng của một sheet Excel.`,

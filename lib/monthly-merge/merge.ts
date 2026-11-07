@@ -2,6 +2,14 @@ import type { ByteSource } from '../xlsx/byte-source';
 import { openWorkbook, readSharedStrings, streamRows, type RawCell, type WorkbookHandle } from '../xlsx/sheet-reader';
 import { SingleSheetXlsxWriter, type EncodedValue } from '../xlsx/sheet-writer';
 import { richTextToPlain, unescapeXml } from '../xlsx/xml';
+import {
+  ControlTotals,
+  DuplicateDetector,
+  findAmountColumns,
+  findKeyColumns,
+  type ControlTotalsReport,
+  type DuplicateReport,
+} from './audit-checks';
 
 export interface WorkbookInspection {
   sheetName: string;
@@ -45,6 +53,8 @@ export interface MergeResult {
   files: MergeFileReport[];
   renumberedColumn: string | null;
   timeColumn: string | null;
+  controlTotals: ControlTotalsReport | null;
+  duplicates: DuplicateReport[];
 }
 
 export interface MergeOptions {
@@ -56,6 +66,8 @@ export interface MergeOptions {
 const FIELD_SEPARATOR = '\u0001';
 const READ_WEIGHT = 0.65;
 const PROGRESS_INTERVAL_MS = 120;
+/** Columns G–O get a SUBTOTAL(9, …) row above the header. */
+const SUBTOTAL_COLUMNS = [6, 7, 8, 9, 10, 11, 12, 13, 14];
 
 export function normalizeHeader(text: string): string {
   return text.normalize('NFC').trim().replace(/\s+/g, ' ').toLowerCase();
@@ -185,6 +197,8 @@ export async function mergeMonthlyFiles(inputs: MergeInput[], options: MergeOpti
   const master = { headers: [] as string[], keys: [] as string[], ready: false };
   let sttColumn = -1;
   let timeColumn = -1;
+  let totals = new ControlTotals([]);
+  let duplicates = new DuplicateDetector([]);
   let lastEmit = 0;
 
   const emit = (progress: MergeProgress, force = false) => {
@@ -227,7 +241,7 @@ export async function mergeMonthlyFiles(inputs: MergeInput[], options: MergeOpti
       fileIndex,
       fileCount,
       fileName: input.name,
-      rows: Math.max(0, writer.rowsWritten - 1) + (phase === 'reading' ? rows.length : 0),
+      rows: writer.dataRows + (phase === 'reading' ? rows.length : 0),
       fraction: Math.min(0.995, (fileIndex + fileFraction) / fileCount),
     });
 
@@ -244,6 +258,8 @@ export async function mergeMonthlyFiles(inputs: MergeInput[], options: MergeOpti
             master.ready = true;
             sttColumn = master.keys.findIndex((k) => STT_HEADERS.has(k));
             timeColumn = findTimeColumn(master.keys);
+            totals = new ControlTotals(findAmountColumns(master.keys));
+            duplicates = new DuplicateDetector(findKeyColumns(master.keys));
           } else {
             const cmp = compareHeaders(master.headers, headers);
             if (cmp.missing.length || cmp.extra.length) {
@@ -294,6 +310,7 @@ export async function mergeMonthlyFiles(inputs: MergeInput[], options: MergeOpti
         if (!hasData) return;
         if (sttColumn >= 0) values[sttColumn] = '';
         rows.push(values.join(FIELD_SEPARATOR));
+        totals.addRead(fileIndex, values);
       },
       (read) => emit(progress('reading', (read / sheetBytes) * READ_WEIGHT)),
     );
@@ -316,13 +333,15 @@ export async function mergeMonthlyFiles(inputs: MergeInput[], options: MergeOpti
 
     if (fileIndex === 0) {
       const headerIds = master.headers.map((h) => writer.sst.addText(escapeText(h)));
-      writer.begin(headerIds, columnWidths(master.headers, rows, writer.sst.lengths));
+      writer.begin(headerIds, columnWidths(master.headers, rows, writer.sst.lengths), SUBTOTAL_COLUMNS);
     }
 
     emit(progress('writing', READ_WEIGHT), true);
     for (let i = 0; i < rows.length; i++) {
       const values = rows[i].split(FIELD_SEPARATOR);
-      if (sttColumn >= 0) values[sttColumn] = 'n' + writer.rowsWritten;
+      if (sttColumn >= 0) values[sttColumn] = 'n' + (writer.dataRows + 1);
+      duplicates.add(values, writer.rowsWritten + 1, fileIndex);
+      totals.addWritten(values);
       writer.writeRow(values);
       rows[i] = '';
       if ((i & 0x1fff) === 0) emit(progress('writing', READ_WEIGHT + (1 - READ_WEIGHT) * (i / rows.length)));
@@ -337,7 +356,7 @@ export async function mergeMonthlyFiles(inputs: MergeInput[], options: MergeOpti
       fileIndex: fileCount - 1,
       fileCount,
       fileName: inputs[fileCount - 1].name,
-      rows: writer.rowsWritten - 1,
+      rows: writer.dataRows,
       fraction: 0.995,
     },
     true,
@@ -346,12 +365,14 @@ export async function mergeMonthlyFiles(inputs: MergeInput[], options: MergeOpti
 
   const headers = master.headers;
   return {
-    rows: writer.rowsWritten - 1,
+    rows: writer.dataRows,
     columns: headers.length,
     sheetName: options.sheetName,
     files: reports,
     renumberedColumn: sttColumn >= 0 ? headers[sttColumn] : null,
     timeColumn: timeColumn >= 0 ? headers[timeColumn] : null,
+    controlTotals: totals.report(headers, inputs.map((i) => i.name)),
+    duplicates: duplicates.report(headers, (v) => String(encodedText(v) ?? '')),
   };
 }
 

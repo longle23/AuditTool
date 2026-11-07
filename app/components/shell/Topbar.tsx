@@ -9,7 +9,7 @@ export function Topbar() {
   const match = findNavItem(pathname);
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6 lg:px-8">
+    <header className="flex h-16 shrink-0 items-center justify-between border-b border-slate-200/70 bg-white/80 px-6 backdrop-blur lg:px-8">
       <nav className="flex items-center gap-1.5 text-sm">
         <span className="text-slate-500">{match?.group.label ?? 'Trang chủ'}</span>
         {match && (

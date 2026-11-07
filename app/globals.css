@@ -1,19 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 
-  --color-navy-50: #eef2f9;
-  --color-navy-100: #d5deef;
-  --color-navy-600: #1a3a7a;
-  --color-navy-700: #0f2d6b;
-  --color-navy-800: #00205b;
-  --color-navy-900: #001840;
+  --color-brand-50: #fdf4ff;
+  --color-brand-100: #f5e8ff;
+  --color-brand-500: #b55cf0;
+  --color-brand-600: #a03ad9;
+  --color-brand-700: #8a2bbd;
+  --color-brand-800: #70229a;
+  --color-brand-900: #22122f;
 
-  --color-gold-50: #fff8e7;
-  --color-gold-100: #ffefc4;
-  --color-gold-500: #ffb81c;
-  --color-gold-600: #e5a419;
+  --color-accent-50: #fdf2f8;
+  --color-accent-100: #fce7f3;
+  --color-accent-400: #f472b6;
+  --color-accent-500: #ec4899;
+  --color-accent-600: #db2777;
 }
 
 html,
@@ -22,5 +24,9 @@ body {
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  @apply bg-[#fcf7fa] text-slate-900 antialiased;
+}
+
+::selection {
+  @apply bg-accent-100 text-accent-600;
 }
