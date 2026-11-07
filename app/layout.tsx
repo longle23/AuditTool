@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     default: 'Jennie Work',
     template: '%s · Jennie Work',
   },
-  description: 'Jennie Work — bộ công cụ hỗ trợ kiểm toán',
+  description: 'Jennie Work — Bộ công cụ hỗ trợ công việc',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
