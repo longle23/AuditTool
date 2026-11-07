@@ -1,10 +1,13 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { ChevronRight, LockKeyhole } from 'lucide-react';
+import { ChevronRight, LockKeyhole, LogOut } from 'lucide-react';
 import { findNavItem } from '@/app/config/navigation';
+import { Button } from '@/app/components/ui/Button';
+import { logout } from '@/lib/auth-actions';
+import { ShareLinkButton } from './ShareLinkButton';
 
-export function Topbar() {
+export function Topbar({ isAdmin }: { isAdmin: boolean }) {
   const pathname = usePathname();
   const match = findNavItem(pathname);
 
@@ -19,12 +22,25 @@ export function Topbar() {
           </>
         )}
       </nav>
-      <div
-        className="hidden items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 sm:flex"
-        title="Dữ liệu được xử lý ngay trên trình duyệt, không tải lên máy chủ"
-      >
-        <LockKeyhole className="h-3.5 w-3.5" />
-        Xử lý cục bộ
+      <div className="flex items-center gap-2">
+        <div
+          className="hidden items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 sm:flex"
+          title="Dữ liệu được xử lý ngay trên trình duyệt, không tải lên máy chủ"
+        >
+          <LockKeyhole className="h-3.5 w-3.5" />
+          Xử lý cục bộ
+        </div>
+        {isAdmin && (
+          <>
+            <ShareLinkButton />
+            <form action={logout}>
+              <Button type="submit" variant="ghost" size="sm" className="whitespace-nowrap" title="Đăng xuất">
+                <LogOut className="h-3.5 w-3.5" aria-hidden="true" />
+                Đăng xuất
+              </Button>
+            </form>
+          </>
+        )}
       </div>
     </header>
   );
