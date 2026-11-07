@@ -32,7 +32,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
               Jennie{' '}
               <span className="bg-linear-to-r from-brand-100 to-accent-400 bg-clip-text text-transparent">Work</span>
             </p>
-            <p className="truncate text-[11px] text-slate-400">Công cụ hỗ trợ kiểm toán</p>
+            <p className="truncate text-[11px] text-slate-400">Công cụ hỗ trợ công việc</p>
           </div>
         )}
       </div>
