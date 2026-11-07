@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
-import { cookies } from 'next/headers';
-import { isExpired, readSession, SESSION_COOKIE } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { basePathFor, isExpired, readSession, SESSION_HEADER } from '@/lib/auth';
 import { AppShell } from './components/shell/AppShell';
 import './globals.css';
 
@@ -19,12 +19,19 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const session = await readSession((await cookies()).get(SESSION_COOKIE)?.value);
+  const token = (await headers()).get(SESSION_HEADER);
+  const session = await readSession(token ?? undefined);
 
   return (
     <html lang="vi" className={jakarta.variable}>
       <body>
-        {session && !isExpired(session) ? <AppShell session={session}>{children}</AppShell> : children}
+        {session && !isExpired(session) ? (
+          <AppShell session={session} basePath={basePathFor(session, token)}>
+            {children}
+          </AppShell>
+        ) : (
+          children
+        )}
       </body>
     </html>
   );

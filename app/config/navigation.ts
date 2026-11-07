@@ -27,6 +27,9 @@ export const NAV_GROUPS: NavGroup[] = [
   },
 ];
 
+export const stripBasePath = (pathname: string, basePath: string) =>
+  basePath && pathname.startsWith(basePath) ? pathname.slice(basePath.length) || '/' : pathname;
+
 export function findNavItem(pathname: string): { group: NavGroup; item: NavItem } | null {
   for (const group of NAV_GROUPS) {
     for (const item of group.items) {

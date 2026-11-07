@@ -2,14 +2,13 @@
 
 import { usePathname } from 'next/navigation';
 import { ChevronRight, LockKeyhole, LogOut } from 'lucide-react';
-import { findNavItem } from '@/app/config/navigation';
+import { findNavItem, stripBasePath } from '@/app/config/navigation';
 import { Button } from '@/app/components/ui/Button';
 import { logout } from '@/lib/auth-actions';
 import { ShareLinkButton } from './ShareLinkButton';
 
-export function Topbar({ isAdmin }: { isAdmin: boolean }) {
-  const pathname = usePathname();
-  const match = findNavItem(pathname);
+export function Topbar({ isAdmin, basePath }: { isAdmin: boolean; basePath: string }) {
+  const match = findNavItem(stripBasePath(usePathname(), basePath));
 
   return (
     <header className="flex h-16 shrink-0 items-center justify-between border-b border-slate-200/70 bg-white/80 px-6 backdrop-blur lg:px-8">

@@ -8,7 +8,13 @@ import { Topbar } from './Topbar';
 
 const COLLAPSED_KEY = 'jennie-work:sidebar-collapsed';
 
-export function AppShell({ session, children }: { session: Session; children: React.ReactNode }) {
+interface AppShellProps {
+  session: Session;
+  basePath: string;
+  children: React.ReactNode;
+}
+
+export function AppShell({ session, basePath, children }: AppShellProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [expired, setExpired] = useState(false);
 
@@ -34,9 +40,9 @@ export function AppShell({ session, children }: { session: Session; children: Re
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar collapsed={collapsed} onToggle={toggle} />
+      <Sidebar collapsed={collapsed} onToggle={toggle} basePath={basePath} />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar isAdmin={session.role === 'admin'} />
+        <Topbar isAdmin={session.role === 'admin'} basePath={basePath} />
         <main className="flex-1 overflow-y-auto">
           <div className="mx-auto w-full max-w-7xl px-6 py-6 lg:px-8">{children}</div>
         </main>

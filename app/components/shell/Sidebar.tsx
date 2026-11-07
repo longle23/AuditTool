@@ -3,15 +3,16 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChevronsLeft, ChevronsRight, Sparkles } from 'lucide-react';
-import { NAV_GROUPS } from '@/app/config/navigation';
+import { NAV_GROUPS, stripBasePath } from '@/app/config/navigation';
 
 interface SidebarProps {
   collapsed: boolean;
   onToggle: () => void;
+  basePath: string;
 }
 
-export function Sidebar({ collapsed, onToggle }: SidebarProps) {
-  const pathname = usePathname();
+export function Sidebar({ collapsed, onToggle, basePath }: SidebarProps) {
+  const pathname = stripBasePath(usePathname(), basePath);
 
   return (
     <aside
@@ -54,7 +55,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 return (
                   <li key={item.href}>
                     <Link
-                      href={item.href}
+                      href={basePath + item.href}
                       title={collapsed ? item.label : undefined}
                       className={`group relative flex h-10 items-center gap-3 rounded-lg px-2.5 text-sm transition-colors ${
                         active
