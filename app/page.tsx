@@ -1,9 +1,6 @@
-import ExcelUploader from './components/ExcelUploader';
+import { redirect } from 'next/navigation';
+import { NAV_GROUPS } from './config/navigation';
 
 export default function Home() {
-  return (
-    <main className="min-h-screen bg-gradient-to-br from-[#f0f4f8] via-[#e6f0ff] to-[#fff9e6] py-12 px-4">
-      <ExcelUploader />
-    </main>
-  );
+  redirect(NAV_GROUPS[0].items[0].href);
 }
