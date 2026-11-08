@@ -1,9 +1,21 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, Copy, Share2 } from 'lucide-react';
+import { Check, Clock, Copy, Share2 } from 'lucide-react';
 import { Button } from '@/app/components/ui/Button';
 import { createShareLink } from '@/lib/auth-actions';
+
+// Mirrors MAX_SHARE_MINUTES in lib/auth.ts, which is not imported here to keep its secret out of the client bundle.
+const MAX_MINUTES = 4 * 60;
+const STEP_MINUTES = 5;
+const PRESETS = [15, 30, 60, 120, 240];
+
+function formatDuration(minutes: number) {
+  const hours = Math.floor(minutes / 60);
+  const rest = minutes % 60;
+  if (!hours) return `${rest} phút`;
+  return rest ? `${hours} giờ ${rest} phút` : `${hours} giờ`;
+}
 
 export function ShareLinkButton() {
   const [open, setOpen] = useState(false);
@@ -21,7 +33,7 @@ export function ShareLinkButton() {
       setLink(url);
       await navigator.clipboard
         .writeText(url)
-        .then(() => setStatus(`Đã sao chép link, dùng được ${minutes} phút`))
+        .then(() => setStatus(`Đã sao chép link, dùng được ${formatDuration(minutes)}`))
         .catch(() => setStatus('Không sao chép tự động được, hãy sao chép link ở trên'));
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Không tạo được link');
@@ -48,18 +60,56 @@ export function ShareLinkButton() {
         Chia sẻ
       </Button>
       {open && (
-        <div className="absolute right-0 z-20 mt-2 w-80 space-y-3 rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
-          <label className="block space-y-1.5 text-sm font-medium text-slate-700">
-            <span>Thời gian sử dụng (phút)</span>
-            <input
-              type="number"
-              min={1}
-              value={minutes}
-              onChange={(event) => setMinutes(Number(event.target.value))}
-              className="h-9 w-full rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
-            />
-          </label>
-          <Button className="w-full" onClick={create} disabled={pending || !(minutes >= 1)}>
+        <div className="absolute right-0 z-20 mt-2 w-80 space-y-4 rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span id="share-duration-label" className="text-sm font-medium text-slate-700">
+                Thời gian sử dụng
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand-700">
+                <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+                {formatDuration(minutes)}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-5 gap-1.5" role="group" aria-labelledby="share-duration-label">
+              {PRESETS.map((preset) => (
+                <button
+                  key={preset}
+                  type="button"
+                  onClick={() => setMinutes(preset)}
+                  aria-pressed={minutes === preset}
+                  className={`h-8 cursor-pointer rounded-lg border text-xs font-medium transition-colors ${
+                    minutes === preset
+                      ? 'border-brand-500 bg-brand-50 text-brand-700'
+                      : 'border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
+                >
+                  {preset < 60 ? `${preset}p` : `${preset / 60}h`}
+                </button>
+              ))}
+            </div>
+
+            <div>
+              <input
+                type="range"
+                min={STEP_MINUTES}
+                max={MAX_MINUTES}
+                step={STEP_MINUTES}
+                value={minutes}
+                onChange={(event) => setMinutes(Number(event.target.value))}
+                aria-labelledby="share-duration-label"
+                aria-valuetext={formatDuration(minutes)}
+                className="w-full cursor-pointer accent-brand-600"
+              />
+              <div className="flex justify-between text-[11px] text-slate-400">
+                <span>{STEP_MINUTES} phút</span>
+                <span>Tối đa {MAX_MINUTES / 60} giờ</span>
+              </div>
+            </div>
+          </div>
+
+          <Button className="w-full" onClick={create} disabled={pending}>
             {pending ? 'Đang tạo…' : 'Tạo & sao chép link'}
           </Button>
           {link && (

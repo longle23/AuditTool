@@ -5,7 +5,7 @@ export const ADMIN_USERNAME = 'admin';
 export const ADMIN_PASSWORD = 'botdien';
 export const ADMIN_SESSION_MINUTES = 4 * 60;
 // Must stay under setTimeout's ~24.8-day limit, used for the client-side guest deadline.
-export const MAX_SHARE_MINUTES = 7 * 24 * 60;
+export const MAX_SHARE_MINUTES = 4 * 60;
 
 export type Role = 'admin' | 'guest';
 export interface Session {

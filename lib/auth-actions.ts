@@ -36,7 +36,7 @@ export async function createShareLink(minutes: number): Promise<string> {
   const session = await readSession((await cookies()).get(SESSION_COOKIE)?.value);
   if (!session || session.role !== 'admin' || isExpired(session)) throw new Error('Chỉ admin mới tạo được link chia sẻ');
   if (!Number.isInteger(minutes) || minutes < 1 || minutes > MAX_SHARE_MINUTES) {
-    throw new Error(`Số phút phải từ 1 đến ${MAX_SHARE_MINUTES}`);
+    throw new Error(`Thời gian phải từ 1 phút đến ${MAX_SHARE_MINUTES / 60} giờ`);
   }
   return `/share/${await signSession('guest', minutes)}`;
 }
