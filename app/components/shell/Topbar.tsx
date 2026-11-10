@@ -7,7 +7,14 @@ import { Button } from '@/app/components/ui/Button';
 import { logout } from '@/lib/auth-actions';
 import { ShareLinkButton } from './ShareLinkButton';
 
-export function Topbar({ isAdmin, basePath }: { isAdmin: boolean; basePath: string }) {
+interface TopbarProps {
+  basePath: string;
+  /** Null for share-link guests, who have no account to log out of. */
+  username: string | null;
+  canShare: boolean;
+}
+
+export function Topbar({ basePath, username, canShare }: TopbarProps) {
   const match = findNavItem(stripBasePath(usePathname(), basePath));
 
   return (
@@ -29,9 +36,12 @@ export function Topbar({ isAdmin, basePath }: { isAdmin: boolean; basePath: stri
           <LockKeyhole className="h-3.5 w-3.5" />
           Xử lý cục bộ
         </div>
-        {isAdmin && (
+        {canShare && <ShareLinkButton />}
+        {username !== null && (
           <>
-            <ShareLinkButton />
+            <span className="hidden max-w-40 truncate px-1 text-sm font-medium text-slate-700 md:inline" title={username}>
+              {username}
+            </span>
             <form action={logout}>
               <Button type="submit" variant="ghost" size="sm" className="whitespace-nowrap" title="Đăng xuất">
                 <LogOut className="h-3.5 w-3.5" aria-hidden="true" />

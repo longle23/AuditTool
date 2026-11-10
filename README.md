@@ -28,6 +28,33 @@ npm run dev        # http://localhost:3000
 npm run build && npm start
 ```
 
+## Tài khoản, phân quyền và lịch sử (NocoDB)
+
+Dữ liệu nằm trong base **JennieWork** trên NocoDB, app gọi qua REST API (`lib/nocodb.ts`). Không lưu nội dung file Excel. Thời gian tạo mỗi dòng NocoDB tự lưu ở cột `CreatedAt`.
+
+| Bảng | Nội dung |
+|---|---|
+| `roles` | `name`, `description`, `permissions` (mảng JSON quyền, `["*"]` = toàn quyền) |
+| `users` | `username`, `display_name`, `password_hash` (scrypt), `role` (= `roles.name`), `is_active`, `last_login_at` |
+| `auth_logs` | đăng nhập / đăng nhập sai (kèm lý do) / đăng xuất / tạo link chia sẻ |
+| `merge_logs` | mỗi lượt gộp file: trạng thái, người dùng, kỳ, số file, số dòng, dung lượng, thời gian, tổng kiểm soát, số mã trùng, danh sách file, lỗi |
+
+Quyền khai báo trong `lib/permissions.ts` (`tools.monthly-merge`, `share.create`, `admin.activity` — trang `/admin/activity` xem lượt đăng nhập và lượt sử dụng). Role và quyền được chốt lúc đăng nhập — đổi quyền / khóa tài khoản có hiệu lực ở lần đăng nhập sau (phiên tối đa 4 giờ). Khách dùng link chia sẻ được dùng mọi công cụ, không tạo được link.
+
+Thiết lập lần đầu:
+
+1. `.env.local`: `NOCODB_URL`, `NOCODB_API_TOKEN` (NocoDB → Account settings → Tokens), `AUTH_SECRET` (chuỗi ngẫu nhiên, bắt buộc khi deploy).
+2. `npm run nocodb -- bases` → copy id của base JennieWork vào `NOCODB_BASE_ID`.
+3. `npm run nocodb -- setup` → tạo các bảng còn thiếu + role `admin`, `member` (chạy lại nhiều lần vẫn an toàn).
+4. `npm run nocodb -- user admin admin "Quản trị"` → nhập mật khẩu, tạo tài khoản đăng nhập. Lệnh này cũng dùng để thêm người dùng hoặc đặt lại mật khẩu.
+
+Thêm chức năng mới:
+
+1. Thêm quyền `tools.<ten>` vào `lib/permissions.ts`, khai báo `permission` cho mục menu trong `app/config/navigation.ts`.
+2. Thêm bảng `<ten>_logs` vào `TABLES` trong `scripts/nocodb.ts`, chạy lại `npm run nocodb -- setup` (bảng đã có được bỏ qua).
+3. Ghi log từ code server: `writeLog('<ten>_logs', { ...các cột })` (`lib/usage-log.ts`, tự thêm `ip`, `user_agent`). Xem mẫu ở `app/tools/monthly-merge/actions.ts`.
+4. Cấp quyền: thêm key vào `permissions` của role trên NocoDB.
+
 ## Cấu trúc
 
 ```

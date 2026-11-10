@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { Session } from '@/lib/auth';
+import { can } from '@/lib/permissions';
 import { ExpiredScreen } from './ExpiredScreen';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
@@ -24,7 +25,7 @@ export function AppShell({ session, basePath, children }: AppShellProps) {
 
   // Tools run in the browser without server round-trips, so session deadlines must be enforced here too.
   useEffect(() => {
-    const onExpire = () => (session.role === 'guest' ? setExpired(true) : window.location.assign('/login'));
+    const onExpire = () => (session.username === null ? setExpired(true) : window.location.assign('/login'));
     const timer = setTimeout(onExpire, session.exp - Date.now());
     return () => clearTimeout(timer);
   }, [session]);
@@ -40,9 +41,13 @@ export function AppShell({ session, basePath, children }: AppShellProps) {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar collapsed={collapsed} onToggle={toggle} basePath={basePath} />
+      <Sidebar collapsed={collapsed} onToggle={toggle} basePath={basePath} permissions={session.permissions} />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar isAdmin={session.role === 'admin'} basePath={basePath} />
+        <Topbar
+          basePath={basePath}
+          username={session.username}
+          canShare={session.username !== null && can(session.permissions, 'share.create')}
+        />
         <main className="flex-1 overflow-y-auto">
           <div className="mx-auto w-full max-w-7xl px-6 py-6 lg:px-8">{children}</div>
         </main>

@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/app/components/ui/Button';
 import { Card } from '@/app/components/ui/Card';
+import { logMerge, type MergeLogInput } from './actions';
 import { PageHeader } from '@/app/components/ui/PageHeader';
 import { buildPlan, formatDate, type SourceFile } from '@/lib/monthly-merge/analysis';
 import type { MergeProgress, MergeResult } from '@/lib/monthly-merge/merge';
@@ -58,6 +59,13 @@ export function MonthlyMergeTool() {
   const [job, setJob] = useState<Job>({ status: 'idle' });
   const [now, setNow] = useState(() => Date.now());
   const outputNameRef = useRef('');
+  const startedAtRef = useRef(0);
+  const logBaseRef = useRef<Pick<MergeLogInput, 'period' | 'outputName' | 'fileCount' | 'files'>>({
+    period: '',
+    outputName: '',
+    fileCount: 0,
+    files: [],
+  });
 
   const plan = useMemo(() => buildPlan(files), [files]);
   const running = job.status === 'running';
@@ -89,10 +97,27 @@ export function MonthlyMergeTool() {
           durationMs: prev.status === 'running' ? Date.now() - prev.startedAt : 0,
         }));
         triggerDownload(url, fileName);
+        const { result } = message;
+        void logMerge({
+          ...logBaseRef.current,
+          ok: true,
+          durationMs: Date.now() - startedAtRef.current,
+          totalRows: result.rows,
+          sizeBytes: message.blob.size,
+          controlTotalsOk: result.controlTotals?.reconciled ?? null,
+          duplicateCount: result.duplicates.reduce((s, d) => s + d.duplicateValues, 0),
+          files: result.files.map((f) => ({ name: f.name, rows: f.rows })),
+        });
         break;
       }
       case 'merge-error':
         setJob({ status: 'error', message: message.message });
+        void logMerge({
+          ...logBaseRef.current,
+          ok: false,
+          durationMs: Date.now() - startedAtRef.current,
+          error: message.message,
+        });
         break;
     }
   }, []);
@@ -151,6 +176,13 @@ export function MonthlyMergeTool() {
     if (!plan.canMerge) return;
     clearResult();
     outputNameRef.current = plan.outputName;
+    startedAtRef.current = Date.now();
+    logBaseRef.current = {
+      period: plan.month ? `${String(plan.month).padStart(2, '0')}/${plan.year}` : '',
+      outputName: plan.outputName,
+      fileCount: plan.files.length,
+      files: plan.files.map((f) => ({ name: f.file.name })),
+    };
     setNow(Date.now());
     setJob({ status: 'running', startedAt: Date.now(), progress: null });
     worker.post({
