@@ -2,7 +2,7 @@ export const SESSION_COOKIE = 'jennie-work-session';
 /** Set by the proxy with the token of the current request: admin cookie or guest token from `/share/<token>/...`. */
 export const SESSION_HEADER = 'x-jennie-session';
 export const ADMIN_USERNAME = 'admin';
-export const ADMIN_PASSWORD = 'botdien';
+export const ADMIN_PASSWORD = '123123';
 export const ADMIN_SESSION_MINUTES = 4 * 60;
 // Must stay under setTimeout's ~24.8-day limit, used for the client-side guest deadline.
 export const MAX_SHARE_MINUTES = 4 * 60;
