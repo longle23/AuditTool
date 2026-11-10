@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Card } from '@/app/components/ui/Card';
 import { PageHeader } from '@/app/components/ui/PageHeader';
@@ -171,57 +172,95 @@ function TableCard({ title, rows, children }: { title: string; rows: Row[]; chil
   );
 }
 
-export default async function ActivityPage() {
+const TABS = [
+  { id: 'merge', label: 'Lượt gộp file' },
+  { id: 'auth', label: 'Lượt đăng nhập' },
+] as const;
+
+export default async function ActivityPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   // The proxy already blocks this route; re-checked here because the page reads sensitive data.
   const session = await readSession((await headers()).get(SESSION_HEADER) ?? undefined);
   if (!session || isExpired(session) || !can(session.permissions, 'admin.activity')) notFound();
 
+  const tab = (await searchParams).tab === 'auth' ? 'auth' : 'merge';
   const since = `(CreatedAt,gte,exactDate,${new Date(Date.now() - STATS_DAYS * 86_400_000).toISOString().slice(0, 10)})`;
   let data;
   try {
-    const [logins, failedLogins, merges, failedMerges, authRows, mergeRows] = await Promise.all([
-      countRows('auth_logs', `${since}~and(action,eq,login)`),
-      countRows('auth_logs', `${since}~and(action,eq,login_failed)`),
-      countRows('merge_logs', since),
-      countRows('merge_logs', `${since}~and(status,eq,failed)`),
-      listRows('auth_logs', { limit: LIMIT }),
-      listRows('merge_logs', { limit: LIMIT }),
-    ]);
-    data = { logins, failedLogins, merges, failedMerges, authRows, mergeRows };
+    const [total, failed, rows] = await Promise.all(
+      tab === 'auth'
+        ? [
+            countRows('auth_logs', `${since}~and(action,eq,login)`),
+            countRows('auth_logs', `${since}~and(action,eq,login_failed)`),
+            listRows('auth_logs', { limit: LIMIT }),
+          ]
+        : [
+            countRows('merge_logs', since),
+            countRows('merge_logs', `${since}~and(status,eq,failed)`),
+            listRows('merge_logs', { limit: LIMIT }),
+          ],
+    );
+    data = { total, failed, rows };
   } catch (error) {
     console.error('Trang lịch sử: không đọc được NocoDB:', error);
   }
 
+  const stats =
+    tab === 'auth'
+      ? [
+          ['Lượt đăng nhập', data?.total],
+          ['Đăng nhập sai', data?.failed],
+        ]
+      : [
+          ['Lượt gộp file', data?.total],
+          ['Gộp file lỗi', data?.failed],
+        ];
+
   return (
     <>
       <PageHeader title="Lịch sử sử dụng" description="Lượt đăng nhập và lượt sử dụng các chức năng của mọi tài khoản." />
+      <nav className="mb-6 flex gap-1 border-b border-slate-200">
+        {TABS.map((t) => (
+          <Link
+            key={t.id}
+            href={t.id === 'merge' ? '/admin/activity' : `/admin/activity?tab=${t.id}`}
+            aria-current={t.id === tab ? 'page' : undefined}
+            className={`-mb-px border-b-2 px-4 py-2 text-sm font-medium ${
+              t.id === tab
+                ? 'border-slate-900 text-slate-900'
+                : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'
+            }`}
+          >
+            {t.label}
+          </Link>
+        ))}
+      </nav>
       {!data ? (
         <Card>
           <p className="text-sm text-red-600">Không kết nối được cơ sở dữ liệu, vui lòng tải lại trang sau.</p>
         </Card>
       ) : (
         <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {[
-              ['Lượt đăng nhập', data.logins, 'text-slate-900'],
-              ['Đăng nhập sai', data.failedLogins, data.failedLogins ? 'text-red-600' : 'text-slate-900'],
-              ['Lượt gộp file', data.merges, 'text-slate-900'],
-              ['Gộp file lỗi', data.failedMerges, data.failedMerges ? 'text-red-600' : 'text-slate-900'],
-            ].map(([label, value, color]) => (
+          <div className="grid grid-cols-2 gap-4">
+            {stats.map(([label, value], i) => (
               <Card key={label as string}>
                 <p className="text-xs text-slate-500">
                   {label} · {STATS_DAYS} ngày
                 </p>
-                <p className={`mt-1 text-2xl font-bold tabular-nums ${color}`}>{(value as number).toLocaleString('vi-VN')}</p>
+                <p className={`mt-1 text-2xl font-bold tabular-nums ${i === 1 && value ? 'text-red-600' : 'text-slate-900'}`}>
+                  {(value as number).toLocaleString('vi-VN')}
+                </p>
               </Card>
             ))}
           </div>
-          <TableCard title="Lượt đăng nhập" rows={data.authRows}>
-            <AuthTable rows={data.authRows} />
-          </TableCard>
-          <TableCard title="Lượt gộp file" rows={data.mergeRows}>
-            <MergeTable rows={data.mergeRows} />
-          </TableCard>
+          {tab === 'auth' ? (
+            <TableCard title="Lượt đăng nhập" rows={data.rows}>
+              <AuthTable rows={data.rows} />
+            </TableCard>
+          ) : (
+            <TableCard title="Lượt gộp file" rows={data.rows}>
+              <MergeTable rows={data.rows} />
+            </TableCard>
+          )}
         </div>
       )}
     </>
