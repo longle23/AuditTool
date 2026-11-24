@@ -4,20 +4,23 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChevronsLeft, ChevronsRight, Sparkles } from 'lucide-react';
 import { NAV_GROUPS, stripBasePath } from '@/app/config/navigation';
-import { can } from '@/lib/permissions';
+import { canAccess } from '@/lib/permissions';
 
 interface SidebarProps {
   collapsed: boolean;
   onToggle: () => void;
   basePath: string;
+  username: string | null;
   permissions: string[];
 }
 
-export function Sidebar({ collapsed, onToggle, basePath, permissions }: SidebarProps) {
+export function Sidebar({ collapsed, onToggle, basePath, username, permissions }: SidebarProps) {
   const pathname = stripBasePath(usePathname(), basePath);
-  const groups = NAV_GROUPS.map((g) => ({ ...g, items: g.items.filter((i) => can(permissions, i.permission)) })).filter(
-    (g) => g.items.length > 0,
-  );
+  const session = { username, permissions };
+  const groups = NAV_GROUPS.map((g) => ({
+    ...g,
+    items: g.items.filter((i) => canAccess(session, i.permission)),
+  })).filter((g) => g.items.length > 0);
 
   return (
     <aside

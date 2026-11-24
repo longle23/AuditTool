@@ -1,4 +1,4 @@
-import { Activity, Combine, Scale, type LucideIcon } from 'lucide-react';
+import { Activity, Combine, Scale, Shield, type LucideIcon } from 'lucide-react';
 import type { Permission } from '@/lib/permissions';
 
 export interface NavItem {
@@ -45,6 +45,13 @@ export const NAV_GROUPS: NavGroup[] = [
         description: 'Lượt đăng nhập và lượt sử dụng các chức năng',
         icon: Activity,
         permission: 'admin.activity',
+      },
+      {
+        href: '/admin/permissions',
+        label: 'Phân quyền',
+        description: 'Gán role và quyền cho tài khoản',
+        icon: Shield,
+        permission: 'admin.permissions',
       },
     ],
   },

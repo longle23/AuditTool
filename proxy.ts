@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { findNavItem } from '@/app/config/navigation';
 import { isExpired, readSession, SESSION_COOKIE, SESSION_HEADER, type Session } from '@/lib/auth';
-import { can } from '@/lib/permissions';
+import { canAccess } from '@/lib/permissions';
 
 const SHARE_PATH = /^\/share\/([^/]+)(\/.*)?$/;
 
@@ -19,7 +19,7 @@ function forward(request: NextRequest, token: string | null, pathname?: string) 
 /** Tool pages the session has no permission for; the home page then picks an allowed tool. */
 function forbidden(session: Session, pathname: string) {
   const match = findNavItem(pathname);
-  return match !== null && !can(session.permissions, match.item.permission);
+  return match !== null && !canAccess(session, match.item.permission);
 }
 
 export async function proxy(request: NextRequest) {

@@ -41,7 +41,13 @@ export function AppShell({ session, basePath, children }: AppShellProps) {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar collapsed={collapsed} onToggle={toggle} basePath={basePath} permissions={session.permissions} />
+      <Sidebar
+        collapsed={collapsed}
+        onToggle={toggle}
+        basePath={basePath}
+        username={session.username}
+        permissions={session.permissions}
+      />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar
           basePath={basePath}
