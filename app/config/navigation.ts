@@ -1,4 +1,4 @@
-import { Activity, Combine, type LucideIcon } from 'lucide-react';
+import { Activity, Combine, Scale, type LucideIcon } from 'lucide-react';
 import type { Permission } from '@/lib/permissions';
 
 export interface NavItem {
@@ -26,6 +26,13 @@ export const NAV_GROUPS: NavGroup[] = [
         description: 'Gộp các file giao dịch trong tháng thành một sheet duy nhất',
         icon: Combine,
         permission: 'tools.monthly-merge',
+      },
+      {
+        href: '/tools/checking-payout',
+        label: 'Checking Payout',
+        description: 'Đối chiếu CHI HỘ BO với sao kê theo mã GD (2 chiều)',
+        icon: Scale,
+        permission: 'tools.checking-payout',
       },
     ],
   },

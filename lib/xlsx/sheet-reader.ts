@@ -19,32 +19,59 @@ export interface WorkbookHandle {
   sharedStrings?: ZipEntry;
 }
 
-export async function openWorkbook(source: ByteSource): Promise<WorkbookHandle> {
-  const zip = await ZipReader.open(source);
+export interface SheetInfo {
+  name: string;
+  /** Path inside the zip, e.g. `xl/worksheets/sheet1.xml`. */
+  path: string;
+  hidden: boolean;
+}
+
+async function readSheetIndex(zip: ZipReader): Promise<SheetInfo[]> {
   const workbookEntry = zip.find('xl/workbook.xml');
   if (!workbookEntry) throw new Error('File không phải định dạng Excel .xlsx.');
 
   const workbookXml = await zip.readText(workbookEntry);
   const sheetTags = workbookXml.match(/<sheet\b[^>]*>/g) ?? [];
-  const sheetTag = sheetTags.find((tag) => getAttr(tag, 'state') !== 'hidden') ?? sheetTags[0];
-  if (!sheetTag) throw new Error('File Excel không có sheet nào.');
+  if (sheetTags.length === 0) throw new Error('File Excel không có sheet nào.');
 
-  const sheetName = unescapeXml(getAttr(sheetTag, 'name') ?? 'Sheet1');
-  const relId = getAttr(sheetTag, 'r:id');
-
-  let sheetPath = 'xl/worksheets/sheet1.xml';
+  const relMap = new Map<string, string>();
   const relsEntry = zip.find('xl/_rels/workbook.xml.rels');
-  if (relId && relsEntry) {
+  if (relsEntry) {
     const relsXml = await zip.readText(relsEntry);
-    const rel = (relsXml.match(/<Relationship\b[^>]*>/g) ?? []).find((tag) => getAttr(tag, 'Id') === relId);
-    const target = rel && getAttr(rel, 'Target');
-    if (target) sheetPath = target.startsWith('/') ? target.slice(1) : `xl/${target.replace(/^\.\//, '')}`;
+    for (const tag of relsXml.match(/<Relationship\b[^>]*>/g) ?? []) {
+      const id = getAttr(tag, 'Id');
+      const target = getAttr(tag, 'Target');
+      if (!id || !target) continue;
+      relMap.set(id, target.startsWith('/') ? target.slice(1) : `xl/${target.replace(/^\.\//, '')}`);
+    }
   }
 
-  const sheet = zip.find(sheetPath);
-  if (!sheet) throw new Error(`Không tìm thấy dữ liệu sheet "${sheetName}".`);
+  return sheetTags.map((tag, i) => {
+    const name = unescapeXml(getAttr(tag, 'name') ?? `Sheet${i + 1}`);
+    const relId = getAttr(tag, 'r:id');
+    const path = (relId && relMap.get(relId)) || `xl/worksheets/sheet${i + 1}.xml`;
+    return { name, path, hidden: getAttr(tag, 'state') === 'hidden' };
+  });
+}
 
-  return { zip, sheetName, sheet, sharedStrings: zip.find('xl/sharedStrings.xml') };
+/** Lists every sheet in the workbook (including hidden). */
+export async function listSheets(source: ByteSource): Promise<{ zip: ZipReader; sheets: SheetInfo[] }> {
+  const zip = await ZipReader.open(source);
+  const sheets = await readSheetIndex(zip);
+  return { zip, sheets };
+}
+
+export function openSheet(zip: ZipReader, info: SheetInfo): WorkbookHandle {
+  const sheet = zip.find(info.path);
+  if (!sheet) throw new Error(`Không tìm thấy dữ liệu sheet "${info.name}".`);
+  return { zip, sheetName: info.name, sheet, sharedStrings: zip.find('xl/sharedStrings.xml') };
+}
+
+export async function openWorkbook(source: ByteSource): Promise<WorkbookHandle> {
+  const { zip, sheets } = await listSheets(source);
+  const info = sheets.find((s) => !s.hidden) ?? sheets[0];
+  if (!info) throw new Error('File Excel không có sheet nào.');
+  return openSheet(zip, info);
 }
 
 /** Returns the inner XML of each `<si>` item. Stops after `limit` items when given. */

@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
+    "test:checking-payout": "npx --yes tsx lib/checking-payout/banks.test.ts && npx --yes tsx lib/checking-payout/reconcile.test.ts",
     "nocodb": "node --env-file=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/nocodb.ts"
   },
   "dependencies": {

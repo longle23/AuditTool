@@ -4,6 +4,7 @@
  */
 export const PERMISSIONS = {
   'tools.monthly-merge': 'Gộp file theo tháng',
+  'tools.checking-payout': 'Checking Payout',
   'share.create': 'Tạo link chia sẻ',
   'admin.activity': 'Xem lịch sử đăng nhập và sử dụng',
 } as const;

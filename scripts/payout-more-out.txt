@@ -1,0 +1,308 @@
+﻿
+==== PIVORT ====
+R4 A=Bank | B=Hình thức | C=Giao dịch khớp | D=3 | F=4 | H=5 | J=6 | L=7 | N=8 | P=9 | R=10 | T=
+R5 A=11 | D=Số tiền | E=Số GD | F=Số tiền | G=Số GD | H=Số tiền | I=Số GD | J=Số tiền | K=Số GD | L=Số tiền | M=Số GD | N=Số tiền | O=Số GD | P=Số tiền | Q=Số GD | R=Số tiền | S=Số GD | T=Số tiền
+R6 A=ACB | B=KHÔNG PS | C= | D= | E= | F= | G= | H= | I= | J= | K= | L= | M= | N= | O= | P= | Q= | R= | S= | T=
+R7 A=Quét Mã QR | B= | C= | D= | E= | F= | G= | H= | I= | J= | K= | L= | M= | N= | O= | P= | Q= | R= | S= | T=
+R8 A=BVBank | B=KHÔNG PS | C= | D= | E= | F= | G= | H= | I= | J= | K= | L= | M= | N= | O= | P= | Q= | R= | S= | T=
+R9 A=Quét Mã QR | B= | C= | D= | E= | F= | G= | H= | I= | J= | K= | L= | M= | N= | O= | P= | Q= | R= | S= | T=
+R10 A=OCB | B=Payout/rút | C=82 | D=1009002342 | E=0 | F=0 | G=0 | H=0 | I=0 | J=0 | K=1 | L=202020000 | M=0 | N=0 | O=0 | P=0 | Q=16 | R=160934333 | S=0 | T=0
+R11 A=MSBank | B=Payout/rút | C=452 | D=9008976155 | E=0 | F=0 | G=17 | H=79664552 | I=1 | J=869451 | K=3 | L=4329991093 | M=32 | N=4719530314 | O=0 | P=0 | Q=72 | R=1167921403 | S=0 | T=0
+R12 A=MBBank | B=Payout/rút | C=892 | D=9094358861 | E=0 | F=0 | G=0 | H=0 | I=0 | J=0 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=272 | R=2215596516 | S=0 | T=0
+R13 A=TPB | B=Payout/rút | C=677 | D=88052659980 | E=1 | F=800901 | G=0 | H=0 | I=3 | J=3477254 | K=5 | L=21000074000 | M=14 | N=6300000000 | O=0 | P=0 | Q=128 | R=3240577923 | S=0 | T=0
+R14 A=BIDV | B=Payout/rút | C=895 | D=16852836325 | E=0 | F=0 | G=6 | H=53231103 | I=1 | J=36477 | K=2 | L=5045830 | M=5 | N=27183837 | O=0 | P=0 | Q=197 | R=4182098436 | S=1 | T=1010000
+R15 A=KLB | B=Payout/rút | C=531 | D=8375402671 | E=0 | F=0 | G=26 | H=203490087 | I=0 | J=0 | K=0 | L=0 | M=29 | N=472335058 | O=0 | P=0 | Q=182 | R=3555823982 | S=0 | T=0
+R16 A=KLB | B=Hoan tien VietQR | C=35 | D=2509927 | E=0 | F=0 | G=2 | H=78000 | I=6 | J=240200 | K=0 | L=0 | M=0 | N=0 | O=0 | P=0 | Q=0 | R=0 | S=0 | T=0
+R17 A= | B= | C= | D=
+R19 A=KIỂM TRA CÂN ĐỐI (kết quả phải bằng 0)
+R20 A=Ngân hàng | B=GD ghi nợ trên sao kê | C=Tổng các nhóm (sao kê) | D=Chênh lệch SL | E=Tiền ghi nợ sao kê | F=Tổng các nhóm (tiền) | G=Chênh lệch tiền | H=GD BO | I=Tổng các nhóm (BO) | J=Chênh lệch SL BO
+R21 A=OCB | B=98 | C=98 | D=0 | E=1169936675 | F=1169936675 | G=0 | H=83 | I=83 | J=0
+R22 A=MSB | B=574 | C=574 | D=0 | E=14976961875 | F=14976961875 | G=0 | H=472 | I=472 | J=0
+R23 A=MBB | B=1164 | C=1164 | D=0 | E=11309955377 | F=11309955377 | G=0 | H=892 | I=892 | J=0
+R24 A=TPB | B=823 | C=823 | D=0 | E=97597516058 | F=97597516058 | G=0 | H=683 | I=683 | J=0
+R25 A=BIDV | B=1105 | C=1105 | D=0 | E=21116396178 | F=21116396178 | G=0 | H=904 | I=904 | J=0
+R26 A=KLB (Payout + VietQR) | B=811 | C=811 | D=0 | E=12609879925 | F=12609879925 | G=0 | H=594 | I=594 | J=0
+R28 A=Ghi chú: "Refund" = dòng ghi nợ hoàn tiền trên sao kê chưa có trên BO. "Sao kê có, BO chưa có" = dòng ghi nợ ngày 28/10 không tìm thấy mã trên BO. Chi tiết xem sheet "Bất thường".
+
+==== Bất thường ====
+R1 A=Ngân hàng | B=Nhóm | C=Nguồn | D=Mã GD | E=Số tiền | F=Ngày / thời gian | G=Ghi chú
+R2 A=BIDV | B=BO có, sao kê chưa cắt tiền | C=BO | D=682252866509085232893 | E=3000000 | F=19:58 28/10/2026 | G=Mã GD ngân hàng: - – trạng thái BO: REVIEW
+R3 A=BIDV | B=BO có, sao kê chưa cắt tiền | C=BO | D=645463170128282808706 | E=2045830 | F=20:00 28/10/2026 | G=Mã GD ngân hàng: - – trạng thái BO: REVIEW
+R4 A=MSB | B=BO có, sao kê chưa cắt tiền | C=BO | D=608088747272522387384 | E=4318648056 | F=10:06 28/10/2026 | G=Mã GD ngân hàng: PI2630103HT845RY – trạng thái BO: SUCCEEDED
+R5 A=MSB | B=BO có, sao kê chưa cắt tiền | C=BO | D=601466845946392460354 | E=9843037 | F=21:20 28/10/2026 | G=Mã GD ngân hàng: - – trạng thái BO: REVIEW
+R6 A=MSB | B=BO có, sao kê chưa cắt tiền | C=BO | D=677373284314211269296 | E=1500000 | F=08:38 28/10/2026 | G=Mã GD ngân hàng: PAYME26102877847364 – trạng thái BO: REVIEW
+R7 A=OCB | B=BO có, sao kê chưa cắt tiền | C=BO | D=687546654276877963930 | E=202020000 | F=15:52 28/10/2026 | G=Mã GD ngân hàng: - – trạng thái BO: REVIEW
+R8 A=TPB | B=BO có, sao kê chưa cắt tiền | C=BO | D=609033809820894731164 | E=9000000000 | F=13:48 28/10/2026 | G=Mã GD ngân hàng: - – trạng thái BO: REVIEW
+R9 A=TPB | B=BO có, sao kê chưa cắt tiền | C=BO | D=642519185295078587340 | E=7000000000 | F=13:50 28/10/2026 | G=Mã GD ngân hàng: - – trạng thái BO: REVIEW
+R10 A=TPB | B=BO có, sao kê chưa cắt tiền | C=BO | D=649884432972074119240 | E=5000000000 | F=13:51 28/10/2026 | G=Mã GD ngân hàng: - – trạng thái BO: REVIEW
+R11 A=TPB | B=BO có, sao kê chưa cắt tiền | C=BO | D=614622460484178178650 | E=50000 | F=19:46 28/10/2026 | G=Mã GD ngân hàng: - – trạng thái BO: REVIEW
+R12 A=TPB | B=BO có, sao kê chưa cắt tiền | C=BO | D=601073951148238750471 | E=24000 | F=21:37 28/10/2026 | G=Mã GD ngân hàng: - – trạng thái BO: REVIEW
+R13 A=BIDV | B=Khớp mã, lệch số tiền | C=Sao kê | D=2868527481 | E=1010000 | F=28/10/2026 | G=Lệch số tiền – BO -1, sao kê 1,010,000
+R14 A=BIDV | B=Refund (chưa khớp) | C=Sao kê | D=2866325915 | E=36477 | F=28/10/2026 | G=Refund (hoàn tiền) – chưa có trên BO: TTHD-TKThe 0326191139_| tai MB. ND O@L_2866325915_261028_C@H_MMVN hoan tien don hang 26000380130 ngay 27 10 2026 -CTLNHIDO000017213550078
+R15 A=KLB | B=Refund (chưa khớp) | C=Sao kê | D=052ZEXA2630005P9 | E=100500 | F=28/10/2026 | G=Hoàn tiền VietQR chưa có trên BO KLB_VietQRPay: 368587 CZTJER Hoan tien giao dich CXGUT2HCZTJER
+R16 A=KLB | B=Refund (chưa khớp) | C=Sao kê | D=052ZEXA2630005JC | E=53000 | F=28/10/2026 | G=Hoàn tiền VietQR chưa có trên BO KLB_VietQRPay: 362236 FU9X27 Hoan tien giao dich CF1XNQ3FU9X27
+R17 A=KLB | B=Refund (chưa khớp) | C=Sao kê | D=052ZEXA26300063L | E=26000 | F=28/10/2026 | G=Hoàn tiền VietQR chưa có trên BO KLB_VietQRPay: 380264 MUQYXO Hoan tien giao dich CI68LAIMUQYXO
+R18 A=KLB | B=Refund (chưa khớp) | C=Sao kê | D=052ZEXA26300061G | E=25000 | F=28/10/2026 | G=Hoàn tiền VietQR chưa có trên BO KLB_VietQRPay: 378693 OJEG6V Hoan tien giao dich CM4MD8COJEG6V
+R19 A=KLB | B=Refund (chưa khớp) | C=Sao kê | D=052ZEXA2630005R4 | E=22700 | F=28/10/2026 | G=Hoàn tiền VietQR chưa có trên BO KLB_VietQRPay: 370023 PK61I1 Hoan tien giao dich C50RO8OPK61I1
+R20 A=KLB | B=Refund (chưa khớp) | C=Sao kê | D=052ZEXA26301006O | E=13000 | F=28/10/2026 | G=Hoàn tiền VietQR chưa có trên BO KLB_VietQRPay: 386663 1GEVEE Hoan tien giao dich CUP4PJZ1GEVEE
+R21 A=MSB | B=Refund (chưa khớp) | C=Sao kê | D=FT26301F0WL5 | E=869451 | F=28/10/2026 | G=Refund (hoàn tiền) – chưa có trên BO: 04001010095420-Ref 6301MCOBQ28Q67CB-CK 24/7 cho 123434568888-MMVN hoan tien don hang 26000374964 ngay 14102026
+R22 A=TPB | B=Refund (chưa khớp) | C=Sao kê | D=1741000 | F=28/10/2026 | G=Refund (hoàn tiền) – chưa có trên BO: CBDAAHDQIYOCW EDC PayME  MSO  Hoan tien cho khach COK7T2NVA5M2Z ECO985605
+R23 A=TPB | B=Refund (chưa khớp) | C=Sao kê | D=1067699 | F=28/10/2026 | G=Refund (hoàn tiền) – chưa có trên BO: CRK112UWZGT6B MMVN hoan tien don hang 26000377346 ngay 20102026
+R24 A=TPB | B=Refund (chưa khớp) | C=Sao kê | D=668555 | F=28/10/2026 | G=Refund (hoàn tiền) – chưa có trên BO: CO2T2G5MGOIWD MMVN hoan tien don hang 26000352128 ngay 17082026
+R25 A=BIDV | B=Sao kê có, BO chưa có | C=Sao kê | D=2864607482 | E=25691469 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: TTHD-TKThe 0101000038994_| tai Vietcombank. ND O@L_2864607482_261027_C@H_606605 Quan V Nguyen TPWV000219784319 -CTLNHIDO000017210755903; thoi gian GD:
+R26 A=BIDV | B=Sao kê có, BO chưa có | C=Sao kê | D=2866421843 | E=587368 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: REM Tfr Ac:1351156573 O@L_276003_211701_0_0_2866421843_349632 TTS TT GD 151633
+R27 A=BIDV | B=Sao kê có, BO chưa có | C=Sao kê | D=2864605601 | E=440000 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: TTHD-TKThe 667076_| tai ACB. ND O@L_2864605601_261027_C@H_416508 Mai Vu GA032630142650 -CTLNHIDO000017210751285; thoi gian GD:27/10/2026 23:47:20
+R28 A=BIDV | B=Sao kê có, BO chưa có | C=Sao kê | D=2866428840 | E=365000 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: TTHD-TKThe 0891000636259_| tai Vietcombank. ND O@L_2866428840_261028_C@H_332426 TTS TT GD 151580 -CTLNHIDO000017213732057
+R29 A=BIDV | B=Sao kê có, BO chưa có | C=Sao kê | D=2866425366 | E=100000 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: TTHD-TKThe 13850695814320_| tai Techcombank. ND O@L_2866425366_261028_C@H_419892 TTS TT GD 151626 -CTLNHIDO000017213726760
+R30 A=KLB | B=Sao kê có, BO chưa có | C=Sao kê | D=052ZEXA26301004X | E=130023784 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: 385744 683485 Gribber Limited GA032630142634
+R31 A=KLB | B=Sao kê có, BO chưa có | C=Sao kê | D=052ZEXA2630005KS | E=90000000 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: 364050 426094 THI GIANG NGUYEN TPUF000219761199
+R32 A=KLB | B=Sao kê có, BO chưa có | C=Sao kê | D=052ZEXA2630005RI | E=64971048 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: 370543 702127 HA THI THU THUY GA032630041719
+R33 A=KLB | B=Sao kê có, BO chưa có | C=Sao kê | D=052ZEXA2630005FQ | E=37000000 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: 357953 552910 YU MI JEONG GA032630041232
+R34 A=KLB | B=Sao kê có, BO chưa có | C=Sao kê | D=052ZEXA26301006F | E=25691469 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: 386594 770529 Kenny Tuankiet Vo TPWV000219785276
+R35 A=KLB | B=Sao kê có, BO chưa có | C=Sao kê | D=052ZEXA2630005K7 | E=25000000 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: 363389 165554 EUN JEONG LEE GA032630041437
+R36 A=KLB | B=Sao kê có, BO chưa có | C=Sao kê | D=052ZEXA26301004J | E=20000000 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: 385550 501591 QUANG THAI PHAM GA032630142621
+R37 A=KLB | B=Sao kê có, BO chưa có | C=Sao kê | D=052ZEXA263010015 | E=19373500 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: 383390 183441 THI HIEN TRAN GA032630142488
+R38 A=KLB | B=Sao kê có, BO chưa có | C=Sao kê | D=052ZEXA2630005WQ | E=12288758 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: 374864 360648 ProleechSolutions LLC GA032630041940
+R39 A=KLB | B=Sao kê có, BO chưa có | C=Sao kê | D=052ZEXA2630005RT | E=11631050 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: 370731 373884 OanhHai Ventures LLC GA032630041728
+R40 A=KLB | B=Sao kê có, BO chưa có | C=Sao kê | D=052ZEXA2630005HE | E=11624000 | F=28/10/2026 | G=Sao kê có, BO chưa có – kiểm tra diễn giải: 360128 318831 THI TIEU YEN NGUYEN GA032630041298
+
+==== Sao ke BIDV headers + sample ====
+R1 C=NGÂN HÀNG TMCP ĐẦU TƯ VÀ PHÁT TRIỂN VIỆT NAM
+Bank for Investment and Development | D=34084 | K=CT001/KH | L=
+R2 I=Ngày in/Prt Date:  | K=46324.3741517824 | L=
+R3 C=Chi nhánh/Branch:    | D=34088 | F= | G=
+R4 
+R5 
+R6 
+R7 B=SAO KÊ TÀI KHOẢN TIỀN GỬI KHÁCH HÀNG/ACCOUNT STATEMENT | C= | D= | E= | F= | G= | H= | I= | J= | K= | L=
+R8 F=Từ ngày/ From Date: | G=46323 | I=Đến ngày/ To Date: | J=46324.9999884259 | L=
+R9 B=Khách hàng /Customer: | E=CTY CP CONG NGHE PAYME | F=34094 | K=34095 | M= | N= | O=
+R10 B=Mã KH / Cif No: | E=14715760 | F=34098 | K= | L= | M= | N= | O=
+R11 B=Tên tài khoản /Account Name: | E=CTY CP CONG NGHE PAYME | F=34100 | K=18383 | M= | N= | O=
+R12 B=Số tài khoản /Account No: | E=1351156573 | F=34103 | K= | L= | M= | N= | O=
+R13 B= | C= | D= | E= | F= | G= | I= | J= | K= | L=
+R14 B= | C= | D= | E= | F= | G=
+R15 B=STT | C=Ngày giao dịch | D=Ngày hiệu lực | E=Mã giao dịch | F=Phát sinh nợ
+ | G=Phát sinh có
+ | H=Số dư
+ | I=Số chứng từ | J=Mã GDV | K=Mã CN | L=Diễn giải
+ | M=Tài khoản đổi ứng | N=Tên đối ứng | O=Ngân hàng đối ứng | P=Số tham chiếu | Q=Mã GD tách (đối chiếu BO) | R=Số tiền chi (BO) | S=Chênh lệch
+(Ghi nợ − Số tiền chi BO) | T=Ghi chú đối chiếu
+R16 B=(No) | C=(Trans.Date) | D=(EFD.Date) | E=(Trans.Code) | F=(Debit amount) | G=(Credit amount) | H=(Balance) | I=SEQ No. | J=Teller ID | K=Branch | L=(Txn. Description) | M=Correspondent Account | N=Correspondent Name | O=Correspondent Bank | P=(Reference number) | Q=(Reconciliation) | R=(Reconciliation) | S=(Reconciliation) | T=(Reconciliation)
+R17 B=Số dư đầu kỳ | C=28215314499 | I= | J= | K= | L= | M= | N= | O= | P=
+R18 B=(Opening balance) | C= | D= | E= | F= | G= | H= | I= | J= | K= | L= | M= | N= | O= | P=
+R19 B=1 | C=28/10/2026 01:05:11 | D=28/10/2026 | E=DW | F=440000 | G=0 | H=28214874499 | I=257293 | J=990IBFT1 | K=135153 | L=TTHD-TKThe 667076_| tai ACB. ND O@L_2864605601_261027_C@H_416508 Mai Vu GA032630 | M=34141 | Q=2864605601 | R= | S= | T=Sao kê có, BO chưa có – kiểm tra diễn giải: TTHD-TKThe 667076_| tai ACB. ND O@L_
+R20 A=29067 | C=28/10/2026 01:05:33 | D=28/10/2026 | E=DD | F=0 | G=75000 | H=28214949499 | I=257294 | J=990TTHDOL | K=177000 | L=REM Tfr Ac:1770260769 O@L_080005_211601_0_0_2864606775_963639474815711955_PM/135 | M=1770260769 | N=CONG TY CP DICH VU DI DONG TRUC TUYEN | O=BIDV | P=0551EAdI-8DAsQls7c | Q= | S= | T=GD Payin
+R21 A=29076 | C=28/10/2026 01:05:46 | D=28/10/2026 | E=DW | F=25691469 | G=0 | H=28189258030 | I=257295 | J=990IBFT1 | K=135153 | L=TTHD-TKThe 0101000038994_| tai Vietcombank. ND O@L_2864607482_261027_C@H_606605  | M=34156 | Q=2864607482 | R= | S= | T=Sao kê có, BO chưa có – kiểm tra diễn giải: TTHD-TKThe 0101000038994_| tai Vietc
+R22 A=29085 | C=28/10/2026 01:07:10 | D=28/10/2026 | E=DD | F=0 | G=13000 | H=28189271030 | I=257296 | J=B2BPMHIN | K=990000 | L=TKThe :0355099154| tai MSCBVNVX. @VA_963639936681725461_PM_TT CC7C2QQRKPHQOO@L_1 | M=0355099154 | N=TRUONG TRAN VIET HOANG | O=MSCBVNVX | P=8681UObs-8DAsjmD23 | Q= | S= | T=GD Payin
+R23 A=29093 | C=28/10/2026 01:07:22 | D=28/10/2026 | E=DD | F=0 | G=26000 | H=28189297030 | I=257297 | J=990IBFT2 | K=990000 | L=TKThe :999990976647430| tai HDBank. @VA_963639605931222914_PM_TT CPAR4QL5B0C06O@ | M=34172 | Q= | S= | T=GD Payin
+R24 B=6 | C=28/10/2026 01:08:23 | D=28/10/2026 | E=DD | F=0 | G=79969 | H=28189376999 | I=257298 | J=990IBFT2 | K=990000 | L=TKThe :212356786| tai VPBank. @VA_963639961081036226_PM_ZP263001085083 TT CVRYNS | M=34176 | Q= | S= | T=GD Payin
+R25 B=7 | C=28/10/2026 01:09:06 | D=28/10/2026 | E=DD | F=0 | G=25000 | H=28189401999 | I=257299 | J=B2BPMHIN | K=990000 | L=TKThe :25521766778899| tai MSCBVNVX. @VA_963639662066480121_PM_TT CGK8PHT35XE3AO | M=25521766778899 | N=TRUONG HUYNH DUYEN | O=MSCBVNVX | P=8683IJRg-8DAt9GuOk | Q= | S= | T=GD Payin
+
+==== Sao ke MSB headers ====
+R2 A=SỔ PHỤ KIÊM PHIẾU BÁO NỢ/CÓ | B= | C= | D= | E= | F= | G= | H= | I=
+R3 A=BANK STATEMENT AND DEBIT/CREDIT NOTE | B= | C= | D= | E= | F= | G= | H= | I=
+R4 A=Từ ngày/From 28/10/2026 Đến ngày/To 29/10/2026 | B= | C= | D= | E= | F= | G= | H= | I=
+R5 A=Tên khách hàng/Customer name: | C=PAYME CORP | G=Loại tiền/Currency: | I=VND
+R6 A=Mã Khách hàng/Customer ID: | C=2490169 | G=Số tài khoản/Account Number: | I=04001010095420
+R7 A=Mã số thuế/Tax ID code: | C=0310476487           | G=Loại tài khoản/Account Type: | I=Tài khoản thanh toán
+R8 A=Địa chỉ/Address: | C=152-154-156-158-160 DUONG B2, P.AN
+R10 A=Ngân hàng TMCP Hàng Hải Việt Nam xin thông báo đã ghi nợ/ ghi có vào tài khoản c
+R12 A=STT/NO | B=Ngày giao dịch/Transaction Date | C=Số bút toán/Reference No | D=Người hưởng/ Người chuyển/Payee/Payer | E=Ngân hàng hưởng/ Ngân hàng chuyển/Payee&apos;s Bank/Payer&apos;s Bank | F=Diễn giải/Transaction Description | G=Nợ/Debit | H=Có/Credit | I=Số dư/Balance | J=Mã GD tách (đối chiếu BO) | K=Số tiền chi (BO) | L=Chênh lệch
+(Ghi nợ − Số tiền chi BO) | M=Ghi chú đối chiếu
+R13 A=1 | B=28/10/2026 00:00 | C=PAYMETELLER/FT2630134FRQ | D=1068529009/BAN THI MUI | E=VIETCOMBANK -NH TMCP NGOAI THUONG VIET NAM (VCB) | F=04001010095420-Ref 6301MCOBQ28QVJT1-CK 24/7 cho 1068529009-897373 Tao lenh chuye | G=24000 | H=0 | I=10961330628 | J=FT2630134FRQ | K=24000 | L=0 | M=Khớp
+R14 A=2 | B=28/10/2026 00:00 | C=PAYMETELLER/FT26301JP1W0 | D=19039673243015/VU THI HAI YEN | E=TECHCOMBANK - NH TMCP KY THUONG VIET NAM (TCB) | F=04001010095420-Ref 6300MCOBQ28QKC8L-CK 24/7 cho 19039673243015-960296 James Coli | G=4050000 | H=0 | I=10957280628 | J=FT26301JP1W0 | K= | L= | M=Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QKC8L-
+R15 A=3 | B=28/10/2026 00:00 | C=PAYMETELLER/FT263012W4NS | D=13588868/CONG TY TNHH DICH VU VA DU LICH  JACKY VIETNAM | E=TECHCOMBANK - NH TMCP KY THUONG VIET NAM (TCB) | F=04001010095420-Ref 6300MCOBQ28QEXYE-CK 24/7 cho 13588868-804419 CHIT SEONG LEE G | G=50426 | H=0 | I=10957230202 | J=FT263012W4NS | K= | L= | M=Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QEXYE-
+R16 A=4 | B=28/10/2026 00:00 | C=PAYMETELLER/FT26301CT059 | D=1012742639/PHAM HUYNH KIM THANH | E=VIETCOMBANK -NH TMCP NGOAI THUONG VIET NAM (VCB) | F=04001010095420-Ref 6300MCOBQ28QE9B6-CK 24/7 cho 1012742639-666230 Han Thuy Vo TP | G=38600842 | H=0 | I=10918629360 | J=FT26301CT059 | K= | L= | M=Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QE9B6-
+R17 A=5 | B=28/10/2026 00:00 | C=PAYMETELLER/FT26301W74QL | D=104880396087/NGUYEN KHANH LINH | E=VIETINBANK - NH TMCP CONG THUONG VIET NAM | F=04001010095420-Ref 6300MCOBQ28QENQM-CK 24/7 cho 104880396087-249304 VAN TRUONG N | G=710000 | H=0 | I=10917919360 | J=FT26301W74QL | K= | L= | M=Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QENQM-
+R18 A=6 | B=28/10/2026 00:00 | C=PAYMETELLER/FT26301M1GV4 | D=19135561629017/CONG TY CO PHAN XUAT NHAP KHAU  SG LINK | E=TECHCOMBANK - NH TMCP KY THUONG VIET NAM (TCB) | F=04001010095420-Ref 6300MCOBQ28QE7LQ-CK 24/7 cho 19135561629017-950473 Cynthia Si | G=4493000 | H=0 | I=10913426360 | J=FT26301M1GV4 | K= | L= | M=Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QE7LQ-
+
+==== Sao ke KLB headers ====
+R1 A=53899 | D= | E=
+R2 A=53900 | D= | E=
+R3 A=53901 | D= | E=
+R4 A=53902 | D= | E=
+R5 A= | B= | C= | D= | E=
+R6 A=Số tài khoản: 3456882268 | B= | C=
+R7 A=Từ ngày 28/10/2026 đến ngày 28/10/2026 | B= | C=
+R9 A=STT | B=Thời gian | C=Mã giao dịch | D=Nội dung giao dịch | E=Số tiền tăng (+) | F=Số tiền giảm (-) | G=Số dư sau GD | H=Mã GD tách (đối chiếu BO) | I=Số tiền chi (BO) | J=Chênh lệch
+(Ghi nợ − Số tiền chi BO) | K=Ghi chú đối chiếu
+R10 A=53909 | E=6392670071 | F= | G=
+R11 A=1 | B=46323 | C=052ZEXA2630005DG | D=355862 692468 Tao lenh chuyen tien | E=0 | F=499000 | G=6392171071 | H=052ZEXA2630005DG | I= | J= | K=Sao kê có, BO chưa có – kiểm tra diễn giải: 355862 692468 Tao lenh chuyen tien
+R12 A=2 | B=46323 | C=052ZEXA2630005F5 | D=357180 074176 MUHAMMAD NORFIKRI BIN SHARI GA032630041198 | E=0 | F=640000 | G=6391531071 | H=052ZEXA2630005F5 | I= | J= | K=Sao kê có, BO chưa có – kiểm tra diễn giải: 357180 074176 MUHAMMAD NORFIKRI BIN 
+R13 A=3 | B=46323 | C=052ZEXA2630005FJ | D=357754 349909 Tao lenh chuyen tien | E=0 | F=24000 | G=6391507071 | H=052ZEXA2630005FJ | I= | J= | K=Sao kê có, BO chưa có – kiểm tra diễn giải: 357754 349909 Tao lenh chuyen tien
+R14 A=4 | B=46323 | C=052ZEXA2630005FQ | D=357953 552910 YU MI JEONG GA032630041232 | E=0 | F=37000000 | G=6354507071 | H=052ZEXA2630005FQ | I= | J= | K=Sao kê có, BO chưa có – kiểm tra diễn giải: 357953 552910 YU MI JEONG GA03263004
+R15 A=5 | B=46323 | C=052ZEXA2630005HE | D=360128 318831 THI TIEU YEN NGUYEN GA032630041298 | E=0 | F=11624000 | G=6342883071 | H=052ZEXA2630005HE | I= | J= | K=Sao kê có, BO chưa có – kiểm tra diễn giải: 360128 318831 THI TIEU YEN NGUYEN GA
+R16 A=6 | B=46323 | C=052ZEXA2630005JC | D=362236 FU9X27 Hoan tien giao dich CF1XNQ3FU9X27 | E=0 | F=53000 | G=6342830071 | H=052ZEXA2630005JC | I= | J= | K=Hoàn tiền VietQR chưa có trên BO KLB_VietQRPay: 362236 FU9X27 Hoan tien giao dic
+
+==== BO KLB_VietQRPay headers ====
+R1 
+R2 A=STT | B=Thời Gian GD | C=Mã Dịch Vụ | D=Loại Dịch Vụ | E=NCC | F=Giá Trị GD | G=STK Nhận | H=Tên TK Nhận | I=Ngân Hàng Nhận | J=Mã Ngân Hàng | K=Nội Dung | L=Trạng Thái | M=Số tiền ghi nợ trên sao kê KLB | N=Chênh lệch
+(Giá trị GD − Sao kê) | O=Ghi chú đối chiếu
+R3 A=1 | B=23:12 28/10/2026 | C=C3AO6HK8LYZNV | D=DISPUTE | E=KLB | F=26000 | G=24871721 | H=LE VAN CHON | I=ACB | J=052ZEXA2630107FV | K=8LYZNV Hoan tien giao dich C3AO6HK8LYZNV | L=Thành công | M=26000 | N=0 | O=Khớp (khác ngày BO) – hoàn tiền VietQR, GD ngày 29/10/2026
+R4 A=2 | B=22:00 28/10/2026 | C=CTT77C1TOW1N8 | D=DISPUTE | E=KLB | F=52000 | G=700036640980 | H=NGUYEN VAN THAI | I=ShinhanBank | J=052ZEXA26301070D | K=TOW1N8 Hoan tien giao dich CTT77C1TOW1N8 | L=Thành công | M=52000 | N=0 | O=Khớp (khác ngày BO) – hoàn tiền VietQR, GD ngày 29/10/2026
+R5 A=3 | B=20:21 28/10/2026 | C=CP4RY40Q146CN | D=DISPUTE | E=KLB | F=52000 | G=36617463 | H=TRAN MINH PHUNG | I=KienLongBank | J=052ZEXA26301067Z | K=Q146CN Hoan tien giao dich CP4RY40Q146CN | L=Thành công | M=52000 | N=0 | O=Khớp – hoàn tiền VietQR (BO KLB_VietQRPay)
+R6 A=4 | B=19:50 28/10/2026 | C=CGRWFH7Y280BL | D=DISPUTE | E=KLB | F=26000 | G=0969036494 | H=PHAM DINH THANG | I=MBBank | J=052ZEXA2630105X0 | K=Y280BL Hoan tien giao dich CGRWFH7Y280BL | L=Thành công | M=26000 | N=0 | O=Khớp – hoàn tiền VietQR (BO KLB_VietQRPay)
+R7 A=5 | B=19:44 28/10/2026 | C=CA4KDXD9CMVGF | D=DISPUTE | E=KLB | F=531976 | G=881740505 | H=LE THI MY LOAN | I=VikkiBank | J=052ZEXA2630105UZ | K=9CMVGF Hoan tien giao dich CA4KDXD9CMVGF | L=Thành công | M=531976 | N=0 | O=Khớp – hoàn tiền VietQR (BO KLB_VietQRPay)
+R8 A=6 | B=19:42 28/10/2026 | C=C43ZKJKWU26SI | D=DISPUTE | E=KLB | F=83000 | G=0011649625 | H=HANG A SEO  | I=VBSP | J=052ZEXA2630105UG | K=WU26SI Hoan tien giao dich C43ZKJKWU26SI | L=Thành công | M=83000 | N=0 | O=Khớp – hoàn tiền VietQR (BO KLB_VietQRPay)
+
+==== BO note samples (scan shared strings for note keywords) ====
+Giao dịch Review&#10;(Sao kê đã báo nợ, BO đang review)
+---
+Giao dịch chưa khớp &#10;(BO có, Sao kê chưa cắt tiền)
+---
+Giao dịch chưa khớp &#10;(Sao kê có, BO chưa có)
+---
+Đơn hàng chưa có trên sao kê&#10;(BO có, sao kê&#10;GD báo Nợ khác tháng T10)
+---
+Sao kê báo nợ khác ngày BO&#10;(GD ngày 27/10, 29/10 – không thuộc BO 28/10)
+---
+Ghi chú: "Refund" = dòng ghi nợ hoàn tiền trên sao kê chưa có trên BO. "Sao kê có, BO chưa có" = dòng ghi nợ ngày 28/10 không tìm thấy mã trên BO. Chi tiết xem sheet "Bất thường".
+---
+Mã khớp + số tiền bằng nhau + cùng ngày = "Khớp"; khác ngày = "Khớp (khác ngày BO)"; sao kê ngày khác BO không có trong BO = "GD ngày xxx"; dòng ghi có = "GD Payin"; còn lại đọc diễn giải để ghi chú
+---
+GD ngày 29/10/2026
+---
+GD Payin
+---
+Khớp
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB268304777267494143769832 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB264655023929074666125405 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB262951325450606782825446 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB263772644677462543760676 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB262250946945860414452494 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB266011241402652495558648 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB262144120294077149094798 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB261938946728367079235169 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB264906760337670199859603 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB265821358435570328411409 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB265561148218316015586652 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB262106253597691109658002 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB263343185248560126281477 u MSB411 qua BIDV573
+---
+Sao kê có, BO chưa có – chuyển tiền nội bộ MSB→BIDV: TPB266058902147796412738003 u MSB411 qua BIDV573
+---
+Review: sao kê đã báo nợ, BO đang review
+---
+GD ngày 27/10/2026
+---
+GD ngày 29/10/2026 – có bút toán đảo (Nợ/Có cùng nội dung & số tiền)
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: TTHD-TKThe 667076_| tai ACB. ND O@L_2864605601_261027_C@H_416508 Mai Vu GA032630142650 -CTLNHIDO000017210751285; thoi gian GD:27/10/2026 23:47:20
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: TTHD-TKThe 0101000038994_| tai Vietcombank. ND O@L_2864607482_261027_C@H_606605 Quan V Nguyen TPWV000219784319 -CTLNHIDO000017210755903; thoi gian GD:
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: REM Tfr Ac:1351156573 O@L_276003_211701_0_0_2866421843_349632 TTS TT GD 151633
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: TTHD-TKThe 13850695814320_| tai Techcombank. ND O@L_2866425366_261028_C@H_419892 TTS TT GD 151626 -CTLNHIDO000017213726760
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: TTHD-TKThe 0891000636259_| tai Vietcombank. ND O@L_2866428840_261028_C@H_332426 TTS TT GD 151580 -CTLNHIDO000017213732057
+---
+Lệch số tiền – BO -1, sao kê 1,010,000
+---
+Khớp (khác ngày BO) – GD ngày 29/10/2026
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QKC8L-CK 24/7 cho 19039673243015-960296 James Colin Thom GA032630042040
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QEXYE-CK 24/7 cho 13588868-804419 CHIT SEONG LEE GA032630042035
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QE9B6-CK 24/7 cho 1012742639-666230 Han Thuy Vo TPWV000219771604
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QENQM-CK 24/7 cho 104880396087-249304 VAN TRUONG NGUYEN GA032630042133
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QE7LQ-CK 24/7 cho 19135561629017-950473 Cynthia Siego GA032630042158
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QK48I-CK 24/7 cho 2502012025-430762 Tao lenh chuyen tien
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QKW6S-CK 24/7 cho 1412039996-634060 Tao lenh chuyen tien
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QGYNH-CK 24/7 cho 1067545112-353706 Tao lenh chuyen tien
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QKE3A-CK 24/7 cho 1040901968-572098 K9HSIGF050BA1GDN JOYMETHANHTOANKYTHANHTOAN20102026
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QGQ2Y-CK 24/7 cho 0972737237-875298 VA0I5OC7CIDZKLKY JOYMETHANHTOANKYTHANHTOAN20102026
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QGQST-CK 24/7 cho 060272628303-837009 MAH TONG SHIN GA032630042297
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QKKJD-CK 24/7 cho 1057325955-053269 Tao lenh chuyen tien
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QGJT6-CK 24/7 cho 9905124882-897343 THI NGOC PHUONG VU GA032630142414
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QK3JE-CK 24/7 cho 87889-828542 123DO ASIAWORKS LIMITED GA032630142417
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QGVL2-CK 24/7 cho 1028008489-313445 Tao lenh chuyen tien
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QGH93-CK 24/7 cho 0933928109-114492 THI HIEN TRAN GA032630142570
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QVYBQ-CK 24/7 cho 0161001709031-842750 Thi Khanh Ha Le TPWV000219782004
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QVAMW-CK 24/7 cho 1014843745-622024 Jennifer Ngakia TPL2000219782856
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QV1FQ-CK 24/7 cho 2705202588-361339 Erik Jesse Pelyukhno GA032630142639
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QVMPL-CK 24/7 cho 1057624979-947272 Tao lenh chuyen tien
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QKM9F-CK 24/7 cho 21796981-654371 Tao lenh chuyen tien
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QKCK2-CK 24/7 cho 119121986-441844 NovaLife LLC GA032630142683
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6300MCOBQ28QKCHB-CK 24/7 cho 070147395531-840699 SANGHYUK LIM TPYS000219785484
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6301MCOBQ28QH9BP-CK 24/7 cho 700037208047-269296 DONGHYEOK JI GA032630146382
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6301MCOBQ28QIGPP-CK 24/7 cho 100867706563-089686 TTS TT GD 151632
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6301MCOBQ28QIXLK-CK 24/7 cho 0381000564613-042567 TTS TT GD 151577
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6301MCOBQ28Q6FV6-CK 24/7 cho 7666866688-844460 3
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6301MCOBQ28Q6F7S-CK 24/7 cho 258060006868-855786 TRA NO
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6301MCOBQ28QN849-CK 24/7 cho 9938141888-307853 3
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6301MCOBQ28Q6JPE-CK 24/7 cho 107877017770-840668 3
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 04001010095420-Ref 6301MCOBQ28Q6TCA-CK 24/7 cho 249215719-770895 tgt thanh toan an uong tap DAOBS 2025261026
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 355862 692468 Tao lenh chuyen tien
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 357180 074176 MUHAMMAD NORFIKRI BIN SHARI GA032630041198
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 357754 349909 Tao lenh chuyen tien
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 357953 552910 YU MI JEONG GA032630041232
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 360128 318831 THI TIEU YEN NGUYEN GA032630041298
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 363389 165554 EUN JEONG LEE GA032630041437
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 364050 426094 THI GIANG NGUYEN TPUF000219761199
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 367988 304917 Minh Hung Ly TPWV000219763939
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 369578 260557 Tao lenh chuyen tien
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 370543 702127 HA THI THU THUY GA032630041719
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 370731 373884 OanhHai Ventures LLC GA032630041728
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 374403 477278 Lina Vo GA032630041910
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 374864 360648 ProleechSolutions LLC GA032630041940
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 377136 903338 Mytien Nguyen GA032630042077
+---
+Sao kê có, BO chưa có – kiểm tra diễn giải: 377937 143133 JIHWAN KIM GA032630042126
