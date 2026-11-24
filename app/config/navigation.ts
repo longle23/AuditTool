@@ -68,3 +68,12 @@ export function findNavItem(pathname: string): { group: NavGroup; item: NavItem 
   }
   return null;
 }
+
+export function findNavItemByPermission(permission: Permission): NavItem | null {
+  for (const group of NAV_GROUPS) {
+    for (const item of group.items) {
+      if (item.permission === permission) return item;
+    }
+  }
+  return null;
+}

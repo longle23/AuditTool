@@ -2,6 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { findNavItemByPermission } from '@/app/config/navigation';
 import {
   isExpired,
   isGuest,
@@ -14,7 +15,7 @@ import {
 } from './auth';
 import { findRow, parseJson, updateRow } from './nocodb';
 import { DUMMY_HASH, USERNAME_PATTERN, verifyPassword } from './password';
-import { can } from './permissions';
+import { can, PERMISSIONS, type Permission } from './permissions';
 import { writeLog, type AuthAction } from './usage-log';
 
 const INVALID_LOGIN = 'Tài khoản hoặc mật khẩu không đúng';
@@ -75,15 +76,24 @@ export async function logout() {
   redirect('/login');
 }
 
-/** Returns the share path (e.g. `/share/<token>`); the client prepends its own origin. */
-export async function createShareLink(minutes: number): Promise<string> {
+/** Returns `/share/<token>/<tool-path>`; guest only gets that one tool. Client prepends origin. */
+export async function createShareLink(minutes: number, permission: Permission): Promise<string> {
   const session = await readSession((await cookies()).get(SESSION_COOKIE)?.value);
   if (!session || isGuest(session) || isExpired(session) || !can(session.permissions, 'share.create')) {
     throw new Error('Bạn không có quyền tạo link chia sẻ');
   }
+  if (!permission.startsWith('tools.') || !(permission in PERMISSIONS) || !can(session.permissions, permission)) {
+    throw new Error('Chỉ chia sẻ được chức năng bạn đang có quyền dùng');
+  }
+  const tool = findNavItemByPermission(permission);
+  if (!tool) throw new Error('Không tìm thấy chức năng để chia sẻ');
   if (!Number.isInteger(minutes) || minutes < 1 || minutes > MAX_SHARE_MINUTES) {
     throw new Error(`Thời gian phải từ 1 phút đến ${MAX_SHARE_MINUTES / 60} giờ`);
   }
-  await logAuth('share_link', { username: session.username, role: session.role, details: { minutes } });
-  return `/share/${await signGuestSession(minutes)}`;
+  await logAuth('share_link', {
+    username: session.username,
+    role: session.role,
+    details: { minutes, permission, tool: tool.label },
+  });
+  return `/share/${await signGuestSession(minutes, permission)}${tool.href}`;
 }

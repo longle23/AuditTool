@@ -15,7 +15,7 @@ export type Permission = keyof typeof PERMISSIONS;
 export const SUPER_ADMIN_USERNAME = 'jennietam';
 export const isSuperAdmin = (username: string | null | undefined) => username === SUPER_ADMIN_USERNAME;
 
-/** Share-link guests may use every tool but nothing else. */
+/** Default tool set for the `member` role seed; share-link guests get only the one tool encoded in their token. */
 export const GUEST_PERMISSIONS = Object.keys(PERMISSIONS).filter((p) => p.startsWith('tools.'));
 
 /** Role-editable keys (excludes the username-gated super-admin page). */

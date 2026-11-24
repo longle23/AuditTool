@@ -1,4 +1,4 @@
-import { GUEST_PERMISSIONS } from './permissions';
+import { PERMISSIONS, type Permission } from './permissions';
 
 export const SESSION_COOKIE = 'jennie-work-session';
 /** Set by the proxy with the token of the current request: user cookie or guest token from `/share/<token>/...`. */
@@ -42,9 +42,15 @@ async function sign(payload: string): Promise<string> {
 
 const expiresAt = (minutes: number) => Math.floor(Date.now() / 1000 + minutes * 60);
 
-/** Guest token: `g<exp seconds, base36>.<signature>`, e.g. `gtnk3x1.AbCdEfGhIjKl`. */
-export async function signGuestSession(minutes: number): Promise<string> {
-  const payload = 'g' + expiresAt(minutes).toString(36);
+/**
+ * Guest token: `g<exp base36>~<tool-slug>.<signature>`, e.g. `gtnk3x1~monthly-merge.AbCdEfGhIjKl`.
+ * Grants only that one `tools.*` permission.
+ */
+export async function signGuestSession(minutes: number, permission: Permission): Promise<string> {
+  if (!permission.startsWith('tools.') || !(permission in PERMISSIONS)) {
+    throw new Error('Chỉ chia sẻ được chức năng công cụ');
+  }
+  const payload = `g${expiresAt(minutes).toString(36)}~${permission.slice('tools.'.length)}`;
   return `${payload}.${await sign(payload)}`;
 }
 
@@ -69,8 +75,11 @@ export async function readSession(token: string | undefined): Promise<Session | 
   if (diff !== 0) return null;
 
   if (payload[0] === 'g') {
-    const exp = parseInt(payload.slice(1), 36) * 1000;
-    return Number.isFinite(exp) ? { username: null, role: 'guest', permissions: GUEST_PERMISSIONS, exp } : null;
+    const [expPart, tool] = payload.slice(1).split('~');
+    const permission = `tools.${tool}` as Permission;
+    const exp = parseInt(expPart, 36) * 1000;
+    if (!tool || !(permission in PERMISSIONS) || !Number.isFinite(exp)) return null;
+    return { username: null, role: 'guest', permissions: [permission], exp };
   }
   if (payload[0] === 'u') {
     try {
